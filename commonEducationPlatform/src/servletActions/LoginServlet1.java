@@ -1,21 +1,21 @@
 package servletActions;
 
 import java.io.IOException;  
-import java.io.PrintWriter;  
-import javax.servlet.RequestDispatcher;  
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;  
 import javax.servlet.http.HttpServletRequest;  
-import javax.servlet.http.HttpServletResponse;  
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import dbActions.DBConnection;
 
   
 @SuppressWarnings("serial")
 public class LoginServlet1 extends HttpServlet {  
 
-public static String username;
-public static String password;
+//public String username;
+//public String password;
 
 public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 {  
@@ -25,28 +25,35 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
           
     String n=request.getParameter("username");  
     String p=request.getParameter("password"); 
-	username=n;
-	password=p;
+	//username=n;
+	//password=p;
 	
-	dbActions.DBConnection.connectToDB();
+    DBConnection dbc=new DBConnection();
+    //dbc.connectToDB();
 	
-	DBConnection dbc=new DBConnection();
-	 
 	if(dbc.validateUserNameandPassowrd(n,p))
 	{
+		HttpSession session = request.getSession();
+		session.setAttribute("user", n);
+		//session.setMaxInactiveInterval(5);
+		
 		//String html1 = "<html><body><b>Login Successful</b><br /><br /><p>Welcome "+username+"</p></body></html>";
 		//out.println(html1);
-		RequestDispatcher rd=request.getRequestDispatcher("/SuccessfulLogin.html");  
-        rd.include(request,response);  
+		//RequestDispatcher rd=request.getRequestDispatcher("/SuccessfulLogin.html");  
+        //rd.include(request,response);
+		
+		//RequestDispatcher rd=request.getRequestDispatcher("/Dashboard");  
+        //rd.include(request,response);
+		response.sendRedirect("/Dashboard");
 		
 	}
     else
     {   
         out.print("Sorry username or password error");  
-        RequestDispatcher rd=request.getRequestDispatcher("index.html");  
-        rd.include(request,response);  
+        
     }  
-          
+    //System.out.println("Dekho");  
     out.close();  
-    }  
+    }
+
 }  

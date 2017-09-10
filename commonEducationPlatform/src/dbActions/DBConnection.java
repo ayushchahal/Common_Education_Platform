@@ -5,34 +5,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import servletActions.LoginServlet1;
-import servletActions.ViewCoachingServlet;
-import servletActions.ViewStudentsServlet;
-import servletActions.ViewTeachersServlet;
-
 import java.sql.Connection;
 
 public class DBConnection { 
 	
-	public static Connection con=null;
-	
-	
-	public static void connectToDB()
+	//public Connection con=null;
+
+	public Connection connectToDB()
 	{
+		Connection con = null;
 		try{   
 			Class.forName("com.mysql.jdbc.Driver");  
 			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/coachingmanagement","root","ayush");   				  
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-		}   
+		}
+		return con;
+	}
+	
+	public void destroyConnection(Connection con)
+	{
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean validateUserNameandPassowrd(String username, String password)
 	{
 		boolean status=false;
+		Connection con=connectToDB();
 		try{ 
-			PreparedStatement ps=DBConnection.con.prepareStatement("select username,password from LoginDetails where username=? and password=?");
+			//Connection con=connectToDB();
+			PreparedStatement ps=con.prepareStatement("select username,password from LoginDetails where username=? and password=?");
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ResultSet rs=ps.executeQuery(); 
@@ -42,7 +50,7 @@ public class DBConnection {
 		{
 			e.printStackTrace();
 		}  
-		
+		destroyConnection(con);
 		return status;
 	}
 	
@@ -50,8 +58,9 @@ public class DBConnection {
 	{
 		PreparedStatement ps;
 		int count=0;
-		try {
-			ps = DBConnection.con.prepareStatement("select Count(ID) from coachingDetails");
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(ID) from coachingDetails");
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);
@@ -59,18 +68,19 @@ public class DBConnection {
 		{
 			e.printStackTrace();
 		}
+		destroyConnection(con);
 		return count;
 	}
-	
 	
 	public String[] getAllCoachingDetails()
 	{
 		int n= getNumberOfCoachings();
-		String[] data = new String[n];
+		//String[] data = new String[n];
 		String htmlTable[]= new String[n];
-
+		Connection con=connectToDB();
 		try {
-			PreparedStatement ps=DBConnection.con.prepareStatement("select ID,CoachingName,Address1,Address2,City,ContactNumber1,Email,IsActive from coachingDetails");
+			
+			PreparedStatement ps=con.prepareStatement("select ID,CoachingName,Address1,Address2,City,ContactNumber1,Email,IsActive from coachingDetails");
 			ResultSet rs = ps.executeQuery();
 			
 			int i=0;
@@ -93,39 +103,8 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 		
-		ViewCoachingServlet.Coaching_out.println("<html>"+"<style>");
-		ViewCoachingServlet.Coaching_out.println("table {\r\n" + 
-				"    font-family: arial, sans-serif;\r\n" + 
-				"    border-collapse: collapse;\r\n" + 
-				"    width: 100%;\r\n" + 
-				"}\r\n" + 
-				"\r\n" + 
-				"td, th {\r\n" + 
-				"    border: 1px solid #dddddd;\r\n" + 
-				"    text-align: left;\r\n" + 
-				"    padding: 8px;\r\n" + 
-				"}\r\n" + 
-				"\r\n" + 
-				"tr:nth-child(even) {\r\n" + 
-				"    background-color: #dddddd;\r\n" + 
-				"}");
-		
-		ViewCoachingServlet.Coaching_out.println("</style>");
-		ViewCoachingServlet.Coaching_out.println("<body>");
-		ViewCoachingServlet.Coaching_out.println("<center>");
-		ViewCoachingServlet.Coaching_out.println("<table>");
-		String tableheaders = "<tr><th>Coaching ID</th><th>Name</th><th>Address1</th><th>Address2</th><th>City</th><th>Phone Number</th><th>Email</th><th>IsActive</th></tr>";
-		ViewCoachingServlet.Coaching_out.println(tableheaders);
-		for(int j=0;j<n;j++)
-		{
-			ViewCoachingServlet.Coaching_out.println(htmlTable[j]);
-		}
-		
-		ViewCoachingServlet.Coaching_out.println("</table>");
-		ViewCoachingServlet.Coaching_out.println("</center>");
-		ViewCoachingServlet.Coaching_out.println("</body></html>");
-		
-		return data;
+		destroyConnection(con);
+		return htmlTable;
 		
 	}
 	
@@ -140,8 +119,9 @@ public class DBConnection {
 	{
 		PreparedStatement ps;
 		int count=0;
-		try {
-			ps = DBConnection.con.prepareStatement("select Count(ID) from studentDetails");
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(ID) from studentDetails");
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);
@@ -149,16 +129,18 @@ public class DBConnection {
 		{
 			e.printStackTrace();
 		}
+		destroyConnection(con);
 		return count;
 	}
 	
 	
-	public void getAllStudentDetails()
+	public String[] getAllStudentDetails()
 	{
 		int n= getNumberOfStudents();
 		String htmlTable[]= new String[n];
+		Connection con=connectToDB();
 		try {
-			PreparedStatement ps=DBConnection.con.prepareStatement("select s.ID,s.StudentName,s.ContactNumber,s.Email,s.IsActive,c.CoachingName from studentDetails s inner join coachingdetails c on c.ID=s.CoachingID");
+			PreparedStatement ps=con.prepareStatement("select s.ID,s.StudentName,s.ContactNumber,s.Email,s.IsActive,c.CoachingName from studentDetails s inner join coachingdetails c on c.ID=s.CoachingID");
 			ResultSet rs = ps.executeQuery();
 			
 			int i=0;
@@ -177,40 +159,8 @@ public class DBConnection {
 		{
 			e.printStackTrace();
 		}
-		
-		ViewStudentsServlet.Coaching_out.println("<html>"+"<style>");
-		ViewStudentsServlet.Coaching_out.println("table {\r\n" + 
-				"    font-family: arial, sans-serif;\r\n" + 
-				"    border-collapse: collapse;\r\n" + 
-				"    width: 100%;\r\n" + 
-				"}\r\n" + 
-				"\r\n" + 
-				"td, th {\r\n" + 
-				"    border: 1px solid #dddddd;\r\n" + 
-				"    text-align: left;\r\n" + 
-				"    padding: 8px;\r\n" + 
-				"}\r\n" + 
-				"\r\n" + 
-				"tr:nth-child(even) {\r\n" + 
-				"    background-color: #dddddd;\r\n" + 
-				"}");
-		
-		ViewStudentsServlet.Coaching_out.println("</style>");
-		ViewStudentsServlet.Coaching_out.println("<body>");
-		//ViewStudentsServlet.Coaching_out.println("<center>");
-		ViewStudentsServlet.Coaching_out.println("<table>");
-		String tableheaders = "<tr><th>Student ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>IsActive</th><th>CoachingName</th></tr>";
-		ViewStudentsServlet.Coaching_out.println(tableheaders);
-		for(int j=0;j<n;j++)
-		{
-			ViewStudentsServlet.Coaching_out.println(htmlTable[j]);
-		}
-		
-		ViewStudentsServlet.Coaching_out.println("</table>");
-		//ViewStudentsServlet.Coaching_out.println("</center>");
-		ViewStudentsServlet.Coaching_out.println("</body></html>");
-		
-
+		destroyConnection(con);
+		return htmlTable;
 	}
 	
 	public String putStudentDataIntoHTMLTable(String ID, String Sname, String C, String e,String S, String Cname)
@@ -224,8 +174,9 @@ public class DBConnection {
 	{
 		PreparedStatement ps;
 		int count=0;
-		try {
-			ps = DBConnection.con.prepareStatement("select Count(ID) from teacherDetails");
+		Connection con=connectToDB();
+		try {		
+			ps = con.prepareStatement("select Count(ID) from teacherDetails");
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);
@@ -233,16 +184,18 @@ public class DBConnection {
 		{
 			e.printStackTrace();
 		}
+		destroyConnection(con);
 		return count;
 	}
 	
 	
-	public void getAllTeachersDetails()
+	public String[] getAllTeachersDetails()
 	{
 		int n= getNumberOfTeachers();
 		String htmlTable[]= new String[n];
-		try {
-			PreparedStatement ps=DBConnection.con.prepareStatement("select T.ID,T.TeacherName,T.ContactNumber,T.Email,T.IsActive,c.CoachingName from TeacherDetails T inner join coachingdetails c on c.ID=T.CoachingID");
+		Connection con=connectToDB();
+		try {		
+			PreparedStatement ps=con.prepareStatement("select T.ID,T.TeacherName,T.ContactNumber,T.Email,T.IsActive,c.CoachingName from TeacherDetails T inner join coachingdetails c on c.ID=T.CoachingID");
 			ResultSet rs = ps.executeQuery();
 			
 			int i=0;
@@ -261,37 +214,8 @@ public class DBConnection {
 		{
 			e.printStackTrace();
 		}
-		
-		ViewTeachersServlet.Coaching_out.println("<html>"+"<style>");
-		ViewTeachersServlet.Coaching_out.println("table {\r\n" + 
-				"    font-family: arial, sans-serif;\r\n" + 
-				"    border-collapse: collapse;\r\n" + 
-				"    width: 100%;\r\n" + 
-				"}\r\n" + 
-				"\r\n" + 
-				"td, th {\r\n" + 
-				"    border: 1px solid #dddddd;\r\n" + 
-				"    text-align: left;\r\n" + 
-				"    padding: 8px;\r\n" + 
-				"}\r\n" + 
-				"\r\n" + 
-				"tr:nth-child(even) {\r\n" + 
-				"    background-color: #dddddd;\r\n" + 
-				"}");
-		
-		ViewTeachersServlet.Coaching_out.println("</style>");
-		ViewTeachersServlet.Coaching_out.println("<body>");
-		ViewTeachersServlet.Coaching_out.println("<table>");
-		String tableheaders = "<tr><th>Teacher ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>IsActive</th><th>CoachingName</th></tr>";
-		ViewTeachersServlet.Coaching_out.println(tableheaders);
-		for(int j=0;j<n;j++)
-		{
-			ViewTeachersServlet.Coaching_out.println(htmlTable[j]);
-		}
-		
-		ViewTeachersServlet.Coaching_out.println("</table>");
-		ViewTeachersServlet.Coaching_out.println("</body></html>");
-		
+		destroyConnection(con);
+		return htmlTable;
 
 	}
 	
@@ -300,6 +224,50 @@ public class DBConnection {
 		String table = null;
 		table= "<tr><td>"+ID+"</td><td>"+Tname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td></tr>";
 		return table;
+	}
+	
+	
+	public String[] getAllCoachingName()
+	{
+		int n= getNumberOfCoachings();
+		String data[]= new String[n];
+		PreparedStatement ps;
+		int i=0;
+		Connection con=connectToDB();
+		try {	
+			ps = con.prepareStatement("select CoachingName from coachingDetails");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				data[i]=rs.getString(1);
+				i++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return data;
+		
+	}
+	
+	public String getCoachingID(String cName)
+	{
+		PreparedStatement ps;
+		String ID = "1";
+		Connection con=connectToDB();
+		try {
+			String query = "select ID from coachingDetails where CoachingName ='"+cName+"'";
+			//System.out.println(query);
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			ID = rs.getString("ID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return ID;
+
 	}
 	
 }
