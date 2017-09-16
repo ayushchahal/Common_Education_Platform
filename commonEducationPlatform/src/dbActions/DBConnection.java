@@ -34,6 +34,27 @@ public class DBConnection {
 		}
 	}
 	
+	public int getLoginType(String username)
+	{
+		int loginType=0;
+		Connection con=connectToDB();
+		try{ 
+			//Connection con=connectToDB();
+			PreparedStatement ps=con.prepareStatement("select LoginTypeID from LoginDetails where username=?");
+			ps.setString(1, username);
+			ResultSet rs=ps.executeQuery(); 
+			rs.next();
+			loginType=rs.getInt(1);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}  
+		destroyConnection(con);
+		return loginType;
+		
+	}
+	
 	public boolean validateUserNameandPassowrd(String username, String password)
 	{
 		boolean status=false;
@@ -44,7 +65,15 @@ public class DBConnection {
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ResultSet rs=ps.executeQuery(); 
-			status=rs.next();
+			rs.next();
+			String dbusername=rs.getString(1);
+			String dbpassword=rs.getString(2);
+			
+			if(dbusername.equalsIgnoreCase(username) && dbpassword.equals(password))
+				status=true;
+			else
+				status=false;
+			
 		}
 		catch(Exception e)
 		{

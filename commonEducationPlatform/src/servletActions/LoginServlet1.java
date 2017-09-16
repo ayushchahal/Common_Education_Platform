@@ -44,8 +44,16 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 		
 		//RequestDispatcher rd=request.getRequestDispatcher("/Dashboard");  
         //rd.include(request,response);
-		response.sendRedirect("/Dashboard");
-		
+		int loginType=dbc.getLoginType(n);
+		//System.out.println(loginType);
+		if(loginType == 1)
+			response.sendRedirect("/Dashboard");
+		else if(loginType == 2)
+			response.sendRedirect("/CoachingDashboard");
+		else if(loginType == 3)
+			response.sendRedirect("/TeacherDashboard");
+		else if(loginType == 4)
+			response.sendRedirect("/StudentDashboard");
 	}
     else
     {   

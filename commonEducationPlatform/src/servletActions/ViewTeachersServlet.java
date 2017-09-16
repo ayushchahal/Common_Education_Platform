@@ -29,47 +29,59 @@ public class ViewTeachersServlet extends HttpServlet {
 			//System.out.println(session);
 			String sessionID = session.getId();
 			
-			if(!sessionID.equals(cookieValue))
+			String username=(String) session.getAttribute("user");
+			int loginType=new DBConnection().getLoginType(username);
+			if(loginType == 1)
 			{
-				out.print("<html><body>User not correctly authenticated</body></html>");
-			}
-			else {
-				DBConnection dbc=new DBConnection();
-				dbc.connectToDB();
-				String[] htmlTable=dbc.getAllTeachersDetails();
-				
-				
-				out.println("<html>"+"<style>");
-				out.println("table {\r\n" + 
-						"    font-family: arial, sans-serif;\r\n" + 
-						"    border-collapse: collapse;\r\n" + 
-						"    width: 100%;\r\n" + 
-						"}\r\n" + 
-						"\r\n" + 
-						"td, th {\r\n" + 
-						"    border: 1px solid #dddddd;\r\n" + 
-						"    text-align: left;\r\n" + 
-						"    padding: 8px;\r\n" + 
-						"}\r\n" + 
-						"\r\n" + 
-						"tr:nth-child(even) {\r\n" + 
-						"    background-color: #dddddd;\r\n" + 
-						"}");
-				
-				out.println("</style>");
-				out.println("<body>");
-				out.println("<table>");
-				String tableheaders = "<tr><th>Teacher ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>IsActive</th><th>CoachingName</th></tr>";
-				out.println(tableheaders);
-				for(int j=0;j<htmlTable.length;j++)
+				if(!sessionID.equals(cookieValue))
 				{
-					out.println(htmlTable[j]);
+					out.print("<html><body>User not correctly authenticated</body></html>");
 				}
-				
-				out.println("</table>");
-				out.println("</body></html>");
-				
+				else {
+					DBConnection dbc=new DBConnection();
+					dbc.connectToDB();
+					String[] htmlTable=dbc.getAllTeachersDetails();
+					
+					
+					out.println("<html>"+"<head>"+"<style>");
+					out.println("table {\r\n" + 
+							"    font-family: arial, sans-serif;\r\n" + 
+							"    border-collapse: collapse;\r\n" + 
+							"    width: 100%;\r\n" + 
+							"}\r\n" + 
+							"\r\n" + 
+							"td, th {\r\n" + 
+							"    border: 1px solid #dddddd;\r\n" + 
+							"    text-align: left;\r\n" + 
+							"    padding: 8px;\r\n" + 
+							"}\r\n" + 
+							"\r\n" + 
+							"tr:nth-child(even) {\r\n" + 
+							"    background-color: #dddddd;\r\n" + 
+							"}");
+					
+					out.println("</style>");
+					out.println("<link rel=\"stylesheet\" href=\"dashboard.css\">");
+					out.println("</head>");
+					out.println("<body>");
+					out.println("<a href=\"/Dashboard\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"><br><br><br><br><br><br>");
+					out.println("<table>");
+					String tableheaders = "<tr><th>Teacher ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>IsActive</th><th>CoachingName</th></tr>";
+					out.println(tableheaders);
+					for(int j=0;j<htmlTable.length;j++)
+					{
+						out.println(htmlTable[j]);
+					}
+					
+					out.println("</table>");
+					out.println("</body></html>");
+					
+				}
 			}
+			else
+			{
+				out.print("<html><body>You are not supposed to view that.</body></html>");
+			}			
 		}catch(Exception e)
 		{
 			out.print("<html><body>Err...Something went wrong.</body></html>");
