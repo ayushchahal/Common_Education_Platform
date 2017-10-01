@@ -54,7 +54,8 @@ public class CreateTest extends HttpServlet{
 					int numberOfQuestions=Integer.parseInt(noq);
 					String html=cq.createQuestionsUI(numberOfQuestions, 1);
 					out.println(html);
-								
+					int testID=tc.getTestID(testName, subjectName, testType, noq, totalMarks, totalTime);
+					tc.insertTestID(testID);
 					//RequestDispatcher rd=request.getRequestDispatcher("/CreateQuestions");  
 			        //rd.include(request,response); 
 				}

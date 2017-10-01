@@ -26,7 +26,7 @@ public class CreateQuestions {
 		String TandFoptions = "<div id=\"option-1\"><input type=\"radio\" name=\"options\" class=\"radio\" value=\"true\" style=\"vertical-align: top;\">True</div><br><div id=\"option-2\"><input type=\"radio\" name=\"options\" class=\"radio\" value=\"false\" style=\"vertical-align: top;\">False</div>";
 		String closeTandFdiv="</div>";
 		
-		String optionDiv="<div id=\"multipleChoiceQuestions\"><div class=\"option\">";
+		String optionDiv="<div id=\"multipleChoiceQuestions\"><div class=\"option\" name=\"mcqoptions\">";
 		String options="<div id=\"option-1\"><br><input type=\"radio\" name=\"options\" class=\"radio\"><textarea onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"option-2\"><br><input type=\"radio\" name=\"options\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"option-3\"><br><input type=\"radio\" name=\"options\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"option-4\"><br><input type=\"radio\" name=\"options\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div>";
 		String closeDiv="</div></div>";
 		
