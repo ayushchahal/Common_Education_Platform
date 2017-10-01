@@ -1,0 +1,102 @@
+@charset "ISO-8859-1";
+.icon-case {
+  width: 35px;
+  float: left;
+  border-radius: 5px 0px 0px 5px;
+  background:#eeeeee;
+  height:42px;
+  position: relative;
+  text-align: center;
+  line-height:40px;
+}
+
+.drop-down{
+  width: 150px;
+  float: left;
+  border-radius: 0px 0px 0px 0px;
+  background:#ffffff;
+  height:42px;
+  position: relative;
+  text-align: center;
+  line-height:40px;
+}
+
+input {
+  border-radius: 0px 5px 5px 0px;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+  width: 75%;
+  height: 40px;
+  float: left;
+  padding: 0px 15px; 
+}
+
+.leftcontact {
+  width:49.5%; 
+  float:left;
+  border-right: 1px dotted #CCC;
+  box-sizing: border-box;
+  padding: 0px 0px 0px 20px;
+}
+
+.rightcontact {
+  width:49.5%;
+  float:right;
+  box-sizing: border-box;
+  padding: 0px 0px 0px 20px;
+}
+
+.form-group {
+  overflow: hidden;
+  clear: both;
+}
+
+.bouton-contact{
+  background-color: #81BDA4;
+  color: #FFF;
+  text-align: center;
+  width: 100%;
+  border:0;
+  padding: 10px 25px;
+  border-radius: 0px 0px 5px 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: auto;
+  font-size: 18px;
+}
+
+.contentform {
+  padding: 0px 0px;
+}
+
+form h1 {
+  font-size: 18px;
+  background: #F6AA93 none repeat scroll 0% 0%;
+  color: rgb(255, 255, 255);
+  padding: 18px 25px;
+  border-radius: 5px 5px 0px 0px;
+  margin: auto;
+  text-shadow: none; 
+  text-align:center;
+}
+
+body {
+  margin: auto;
+  background: #eaeaea;  
+  font-family: 'Open Sans', sans-serif;
+}
+
+form {
+  border-radius: 15px;
+  max-width:800px;
+  width:100%;
+  margin: 3% auto;
+  background-color: #FFFFFF;
+  overflow: hidden;
+}
+
+
+::-webkit-input-placeholder { /* Chrome */
+  color: black;
+  opacity: 0.45;
+}
