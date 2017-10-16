@@ -26,7 +26,6 @@ public class TestDetails extends HttpServlet{
 			Cookie[] cookie = request.getCookies();
 			String cookieValue=cookie[0].getValue();
 
-			
 			if(!sessionID.equals(cookieValue))
 			{
 				out.print("<html><body>User not correctly authenticated</body></html>");

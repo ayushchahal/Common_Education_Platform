@@ -43,7 +43,10 @@ public class Dashboard extends HttpServlet
 					String html2="<br><br><br><a href=\"/ViewCoachingServlet\">View Coaching</a><br><br><a href=\"/ViewTeachersServlet\">View Teachers</a><br><br><a href=\"/ViewStudentsServlet\">View Students</a><br><br>";
 					String html3="<a href=\"/DisplayAddCoaching\">Add Coaching</a><br><br><a href=\"/DisplayAddTeacher\">Add Teacher</a><br><br><a href=\"/DisplayAddStudent\">Add Student</a>";
 					String html4="<br><br><a href=\"/DisplayCreateTestPage\">Create a test</a>";
-					out.print(html1+html2+html3+html4);
+					String html5="<br><br><a href=\"/DisplayCreatedTests\">View tests</a>";
+					//String userID="<input type=\"hidden\" id=\"userID\" name=\"userID\" style=\"display:none;\" value=\""+username+"\">";
+					String closeHtml="</body></html>";
+					out.print(html1+html2+html3+html4+html5+closeHtml);
 				}
 			}
 			else

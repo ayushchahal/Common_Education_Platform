@@ -42,7 +42,7 @@ public class ViewCoachingServlet extends HttpServlet {
 				}
 				else {
 					DBConnection dbc=new DBConnection();
-					dbc.connectToDB();
+					//dbc.connectToDB();
 					String[] htmlTable=dbc.getAllCoachingDetails();
 					
 					out.println("<html>"+"<head>"+"<style>");

@@ -15,7 +15,7 @@ public class CreateQuestions {
 				"<body>";
 		
 		String block="<div id=\"content\" class=\"block\">";
-		String form="<form action=\"SaveTest\" method=\"Post\">";
+		String form="<form action=\"SaveTest\" method=\"Post\" id=\"questionsForm\">";
 		String textArea="<label style>Question "+questionNumber+" of "+noq+"</label><br>"+"<textarea id=\"question\" name=\"question\"></textarea><br><br>";
 		String dropdown="<div class=\"lhs\"><label style>Type of Question:</label><br><select name=\"qType\" id=\"qType\" onChange=\"changeQType()\"><option value=\"1\">True/False</option><option value=\"2\" selected>Multiple choice</option><option value=\"3\">Multiple response</option><option value=\"4\">Fill in the blank</option></select></div>";
 		String positiveMarks="<div class=\"rhs\"><label style>Positive Marks:</label><input id=\"pmarks\" name=\"pmarks\" size=\"3\" type=\"number\" minimun=\"0\" step=\"0.01\" value=\"1\"></div><br><br>";
@@ -23,15 +23,15 @@ public class CreateQuestions {
 		
 		String label="<label>Enter the options, and mark which answer is correct</label><br>";
 		String TandFdiv = "<br><div id=\"TandF\" style=\"display:none;\">";
-		String TandFoptions = "<div id=\"option-1\"><input type=\"radio\" name=\"options\" class=\"radio\" value=\"true\" style=\"vertical-align: top;\">True</div><br><div id=\"option-2\"><input type=\"radio\" name=\"options\" class=\"radio\" value=\"false\" style=\"vertical-align: top;\">False</div>";
+		String TandFoptions = "<div id=\"option-1\" name=\"option-1\"><input type=\"radio\" name=\"options\" class=\"radio\" value=\"true\" style=\"vertical-align: top;\">True</div><br><div id=\"option-2\" name=\"option-2\"><input type=\"radio\" name=\"options\" class=\"radio\" value=\"false\" style=\"vertical-align: top;\">False</div>";
 		String closeTandFdiv="</div>";
 		
 		String optionDiv="<div id=\"multipleChoiceQuestions\"><div class=\"option\" name=\"mcqoptions\">";
-		String options="<div id=\"option-1\"><br><input type=\"radio\" name=\"options\" class=\"radio\"><textarea onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"option-2\"><br><input type=\"radio\" name=\"options\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"option-3\"><br><input type=\"radio\" name=\"options\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"option-4\"><br><input type=\"radio\" name=\"options\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div>";
+		String options="<div id=\"option-1\"><br><input type=\"radio\" name=\"options\" value=\"1\" class=\"radio\"><textarea onclick=\"clearParagraph()\" name=\"option-1\" class=\"options\"></textarea><br></div><div id=\"option-2\"><br><input type=\"radio\" name=\"options\" value=\"2\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\" name=\"option-2\"></textarea><br></div><div id=\"option-3\"><br><input type=\"radio\" name=\"options\" value=\"3\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\" name=\"option-3\"></textarea><br></div><div id=\"option-4\"><br><input type=\"radio\" name=\"options\" value=\"4\" class=\"radio\"><textarea  onclick=\"clearParagraph()\" class=\"options\" name=\"option-4\"></textarea><br></div>";
 		String closeDiv="</div></div>";
 		
 		String MAQDiv = "<div id=\"MAQ\" style=\"display:none;\"><div class=\"MAQoption\">";
-		String MAQOptions = "<div id=\"MAQoption-1\"><br><input type=\"checkbox\" name=\"options\" class=\"checkbox\"><textarea onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"MAQoption-2\"><br><input type=\"checkbox\" name=\"options\" class=\"checkbox\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"MAQoption-3\"><br><input type=\"checkbox\" name=\"options\" class=\"checkbox\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div><div id=\"MAQoption-4\"><br><input type=\"checkbox\" name=\"options\" class=\"checkbox\"><textarea  onclick=\"clearParagraph()\" class=\"options\"></textarea><br></div>";
+		String MAQOptions = "<div id=\"MAQoption-1\"><br><input type=\"checkbox\" name=\"options\" value=\"1\" class=\"checkbox\"><textarea onclick=\"clearParagraph()\" class=\"options\" name=\"MAQoption-1\"></textarea><br></div><div id=\"MAQoption-2\"><br><input type=\"checkbox\" name=\"options\" value=\"2\" class=\"checkbox\"><textarea  onclick=\"clearParagraph()\" class=\"options\" name=\"MAQoption-2\"></textarea><br></div><div id=\"MAQoption-3\"><br><input type=\"checkbox\" name=\"options\" value=\"3\" class=\"checkbox\"><textarea  onclick=\"clearParagraph()\" class=\"options\" name=\"MAQoption-3\"></textarea><br></div><div id=\"MAQoption-4\"><br><input type=\"checkbox\" name=\"options\" value=\"4\" class=\"checkbox\"><textarea  onclick=\"clearParagraph()\" class=\"options\" name=\"MAQoption-4\"></textarea><br></div>";
 		String closeMAQDiv="</div></div>";
 		
 		String p="<p id=\"optionsValidator\"></p>";

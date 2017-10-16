@@ -282,4 +282,14 @@
 	   <url-pattern>/SaveTest</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+	   <servlet-name>DisplayCreatedTests</servlet-name>
+	   <servlet-class>servletActions.DisplayCreatedTests</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayCreatedTests</servlet-name>
+	   <url-pattern>/DisplayCreatedTests</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

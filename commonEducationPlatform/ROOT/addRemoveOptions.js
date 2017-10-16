@@ -45,7 +45,7 @@ function addOption() {
 			var div = document.createElement('div');
 			div.id = 'option-'+(numberOfChildren+1);
 			
-			div.innerHTML = '<br><input type="radio" name="options" class="radio"><textarea  onclick="clearParagraph()" class="options"></textarea>';
+			div.innerHTML = '<br><input type="radio" name="options" value="'+(numberOfChildren+1)+'" class="radio"><textarea  onclick="clearParagraph()" class="options" name='+div.id+'></textarea>';
 			document.getElementsByClassName('option')[0].appendChild(div);
 		}
 		else
@@ -62,7 +62,7 @@ function addOption() {
 			var div = document.createElement('div');
 			div.id = 'MAQoption-'+(numberOfChildren+1);
 			
-			div.innerHTML = '<br><input type="checkbox" name="options" class="checkbox"><textarea  onclick="clearParagraph()" class="options"></textarea>';
+			div.innerHTML = '<br><input type="checkbox" name="options" value="'+(numberOfChildren+1)+'" class="checkbox"><textarea  onclick="clearParagraph()" class="options" name='+div.id+'></textarea>';
 			document.getElementsByClassName('MAQoption')[0].appendChild(div);
 		}
 		else
