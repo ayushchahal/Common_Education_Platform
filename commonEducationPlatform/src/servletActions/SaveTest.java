@@ -1,8 +1,6 @@
 package servletActions;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +15,7 @@ public class SaveTest extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		response.setContentType("text/html");  
-		PrintWriter out= response.getWriter();
+		//PrintWriter out= response.getWriter();
 		
 		String question = request.getParameter("question");
 		String qType = request.getParameter("qType");
@@ -84,7 +82,8 @@ public class SaveTest extends HttpServlet {
 		}
 		else if(buttonAction.equalsIgnoreCase("Complete Questions Submission"))
 		{
-			out.print("Test created");
+			RequestDispatcher rd=request.getRequestDispatcher("/ShareTestPage");
+			rd.forward(request,response);
 		}
 		
 	}

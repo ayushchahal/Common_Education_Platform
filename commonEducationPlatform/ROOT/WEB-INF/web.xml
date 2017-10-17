@@ -292,4 +292,24 @@
 	   <url-pattern>/DisplayCreatedTests</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+	   <servlet-name>ShareTestPage</servlet-name>
+	   <servlet-class>servletActions.ShareTestPage</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ShareTestPage</servlet-name>
+	   <url-pattern>/ShareTestPage</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ShareTest</servlet-name>
+	   <servlet-class>servletActions.ShareTest</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ShareTest</servlet-name>
+	   <url-pattern>/ShareTest</url-pattern>
+	</servlet-mapping>
+
 </web-app>

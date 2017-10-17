@@ -49,7 +49,7 @@ public class CreateTest extends HttpServlet{
 					testType="2";
 				
 				TestCreators tc=new TestCreators();
-				if(tc.insertTestDetails(testName, subjectName, testType, noq, totalMarks, totalTime, ""+loginType))
+				if(tc.insertTestDetails(testName, subjectName, testType, noq, totalMarks, totalTime, ""+loginType,"0","0"))
 				{
 					//out.print("Test Created");
 					//CreateQuestions cq=new CreateQuestions();

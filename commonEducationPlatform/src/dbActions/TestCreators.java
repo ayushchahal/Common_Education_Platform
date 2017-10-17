@@ -32,14 +32,14 @@ public class TestCreators {
 		}
 	}
 	
-	public boolean insertTestDetails(String testName, String subjectName, String testType, String noq, String totalMarks, String totalTime, String username)
+	public boolean insertTestDetails(String testName, String subjectName, String testType, String noq, String totalMarks, String totalTime, String username, String isCompleted, String isShared)
 	{
 		Statement ps;
 		boolean status=false;
 		Connection con=connectToDB();
 		try {
 			ps = con.createStatement();
-			String sql="insert into Tests (TestName,SubjectName,TestType,NumberOfQuestions,TotalMarks,TotalTime,Owner,IsCompleted) values (\""+testName+"\",\""+subjectName+"\",\""+testType+"\",\""+noq+"\",\""+totalMarks+"\",\""+totalTime+"\",\""+username+"\",\""+0+"\")";
+			String sql="insert into Tests (TestName,SubjectName,TestType,NumberOfQuestions,TotalMarks,TotalTime,Owner,IsCompleted,IsShared) values (\""+testName+"\",\""+subjectName+"\",\""+testType+"\",\""+noq+"\",\""+totalMarks+"\",\""+totalTime+"\",\""+username+"\",\""+isCompleted+"\",\""+isShared+"\")";
 			System.out.println(sql);
 			ps.executeUpdate(sql);
 			status=true;
@@ -120,7 +120,7 @@ public class TestCreators {
 		String htmlTable[]= new String[n];
 		Connection con=connectToDB();
 		try {
-			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime,Owner,IsCompleted from tests");
+			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests");
 			ResultSet rs = ps.executeQuery();
 			int i=0;
 			while(rs.next())
@@ -141,8 +141,22 @@ public class TestCreators {
 				if(isCompleted.equals("1"))
 					isCompleted = "Yes";
 				else isCompleted = "No";
+				String isShared = rs.getString(10);
+				if(isShared == null)
+				{
+					isShared="No";
+				}
+				else {
+					if(isShared.equals("1"))
+						isShared = "Yes";
+					else isShared = "No";
+					
+				}
 				
-				htmlTable[i]=putTestDataIntoHTMLTable(ID, TestName, SubjectName, TestType, noq, TotalMarks, TotalTime, owner, isCompleted);
+				String publicDT = rs.getString(11);
+		
+				
+				htmlTable[i]=putTestDataIntoHTMLTable(ID, TestName, SubjectName, TestType, noq, TotalMarks, TotalTime, owner, isCompleted, isShared, publicDT);
 				i=i+1;
 			}
 		}catch(Exception e)
@@ -172,11 +186,28 @@ public class TestCreators {
 	}
 	
 	
-	public String putTestDataIntoHTMLTable(String ID, String TestName, String SubjectName, String TestType,String noq, String TotalMarks, String TotalTime, String owner, String isCompleted)
+	public String putTestDataIntoHTMLTable(String ID, String TestName, String SubjectName, String TestType,String noq, String TotalMarks, String TotalTime, String owner, String isCompleted, String isShared, String publicDateTime)
 	{
 		String table = null;
-		table= "<tr><td>"+ID+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+TestType+"</td><td>"+noq+"</td><td>"+TotalMarks+"</td><td>"+TotalTime+"</td><td>"+owner+"</td><td>"+isCompleted+"</td></tr>";
+		table= "<tr><td>"+ID+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+TestType+"</td><td>"+noq+"</td><td>"+TotalMarks+"</td><td>"+TotalTime+"</td><td>"+owner+"</td><td>"+isCompleted+"</td><td>"+isShared+"</td><td>"+publicDateTime+"</td></tr>";
 		return table;
+	}
+	
+	public void insertShareDate(String testID, String date) 
+	{
+		Statement ps;
+		Connection con=connectToDB();
+		try {
+			ps = con.createStatement();
+			String sql="update tests set IsShared=1, PublicDateTime=\""+date+"\" "+"where Id="+testID;
+			System.out.println(sql);
+			ps.executeUpdate(sql);
+		} catch (SQLException ex) 
+		{
+			ex.printStackTrace();
+		}
+		destroyConnection(con);
+		
 	}
 	
 	
