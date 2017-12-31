@@ -79,7 +79,6 @@ public class Adders {
 		boolean status=false;
 		Connection con=connectToDB();
 		String CoachingID = new DBConnection().getCoachingID(cname);
-		
 		try {
 			ps = con.createStatement();
 			String sql = "insert into studentdetails (StudentName,ContactNumber,Email,IsActive,CoachingID)values(\""+sname+"\",\""+c1+"\",\""+e+"\",\""+s+"\",\""+CoachingID+"\")";

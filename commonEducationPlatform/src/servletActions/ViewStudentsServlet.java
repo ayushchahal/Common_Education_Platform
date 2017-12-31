@@ -30,7 +30,7 @@ public class ViewStudentsServlet extends HttpServlet {
 
 			String username=(String) session.getAttribute("user");
 			int loginType=new DBConnection().getLoginType(username);
-			if(loginType == 1)
+			if(loginType == 1 || loginType == 2)
 			{
 				if(!sessionID.equals(cookieValue))
 				{
@@ -38,9 +38,17 @@ public class ViewStudentsServlet extends HttpServlet {
 				}
 				else {
 					DBConnection dbc=new DBConnection();
-					dbc.connectToDB();
-					String[] htmlTable=dbc.getAllStudentDetails();
-					
+					String[] htmlTable=null;
+					if(loginType == 1)
+					{
+						htmlTable=dbc.getAllStudentDetails();
+					}	
+					else if (loginType == 2)
+					{
+						String[] c = username.split("@");
+						String coachingName=c[0];
+						htmlTable=dbc.getSelectedCoachingStudentDetails(coachingName);
+					}
 
 					out.println("<html>"+"<head>"+"<style>");
 					out.println("table {\r\n" + 
@@ -63,10 +71,11 @@ public class ViewStudentsServlet extends HttpServlet {
 					out.println("<link rel=\"stylesheet\" href=\"dashboard.css\">");
 					out.println("</head>");
 					out.println("<body>");
-					out.println("<a href=\"/Dashboard\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"><br><br><br><br><br><br>");
+					out.println("<a href=\"/Dashboard\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"></form><br><br><br><br><br><br>");
 					//out.println("<center>");
+					//out.println("<form action=\"/StudentDetail\" method=\"Post\">");
 					out.println("<table>");
-					String tableheaders = "<tr><th>Student ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>IsActive</th><th>CoachingName</th></tr>";
+					String tableheaders = "<tr><th>Student ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>IsActive</th><th>CoachingName</th><th>Details</th></tr>";
 					out.println(tableheaders);
 					for(int j=0;j<htmlTable.length;j++)
 					{
@@ -74,7 +83,7 @@ public class ViewStudentsServlet extends HttpServlet {
 					}
 					
 					out.println("</table>");
-					//out.println("</center>");
+					//out.println("</form>");
 					out.println("</body></html>");
 					
 

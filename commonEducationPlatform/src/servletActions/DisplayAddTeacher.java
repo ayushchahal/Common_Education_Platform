@@ -42,6 +42,18 @@ public class DisplayAddTeacher extends HttpServlet {
 					out.print(html);
 				}
 			}
+			else if (loginType == 2)
+			{
+				if(!sessionID.equals(cookieValue))
+				{
+					out.print("<html><body>User not correctly authenticated</body></html>");
+				}
+				else {
+					HTMLReader hr=new HTMLReader();
+					String html=hr.readHTMLFile("..//webapps//ROOT//AddTeacherFromCoaching.html");
+					out.print(html);
+				}
+			}
 			else
 			{
 				out.print("<html><body>You are not supposed to view that.</body></html>");

@@ -44,9 +44,10 @@ public class Dashboard extends HttpServlet
 					String html3="<a href=\"/DisplayAddCoaching\">Add Coaching</a><br><br><a href=\"/DisplayAddTeacher\">Add Teacher</a><br><br><a href=\"/DisplayAddStudent\">Add Student</a>";
 					String html4="<br><br><a href=\"/DisplayCreateTestPage\">Create a test</a>";
 					String html5="<br><br><a href=\"/DisplayCreatedTests\">View tests</a>";
+					String html6="<br><br><a href=\"/MyWorkspace\">MyWorkspace</a>";
 					//String userID="<input type=\"hidden\" id=\"userID\" name=\"userID\" style=\"display:none;\" value=\""+username+"\">";
 					String closeHtml="</body></html>";
-					out.print(html1+html2+html3+html4+html5+closeHtml);
+					out.print(html1+html2+html3+html4+html5+html6+closeHtml);
 				}
 			}
 			else

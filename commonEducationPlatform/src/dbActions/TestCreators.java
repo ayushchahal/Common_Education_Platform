@@ -156,7 +156,62 @@ public class TestCreators {
 				String publicDT = rs.getString(11);
 		
 				
-				htmlTable[i]=putTestDataIntoHTMLTable(ID, TestName, SubjectName, TestType, noq, TotalMarks, TotalTime, owner, isCompleted, isShared, publicDT);
+				htmlTable[i]=putTestDataIntoHTMLTable(ID, TestName, SubjectName, TestType, noq, TotalMarks, TotalTime, owner, isCompleted, isShared, publicDT, 1);
+				i=i+1;
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return htmlTable;
+	}
+	
+	
+	public String[] getAllCoachingTests(String loginID)
+	{
+		int n= getNumberOfTestsInCoaching(loginID);
+		String htmlTable[]= new String[n];
+		Connection con=connectToDB();
+		try {
+			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests where Owner=?");
+			ps.setString(1, loginID);
+			ResultSet rs = ps.executeQuery();
+			int i=0;
+			while(rs.next())
+			{
+				String ID = rs.getString(1);
+				String TestName = rs.getString(2);
+				String SubjectName = rs.getString(3);
+				String TestType = rs.getString(4);
+				if(TestType.equals("1"))
+					TestType="Standard";
+				else
+					TestType="Time-attack";
+				String noq = rs.getString(5);
+				String TotalMarks = rs.getString(6);
+				String TotalTime = rs.getString(7);
+				String owner = rs.getString(8);
+				String isCompleted = rs.getString(9);
+				if(isCompleted.equals("1"))
+					isCompleted = "Yes";
+				else isCompleted = "No";
+				String isShared = rs.getString(10);
+				if(isShared == null)
+				{
+					isShared="No";
+				}
+				else {
+					if(isShared.equals("1"))
+						isShared = "Yes";
+					else isShared = "No";
+					
+				}
+				
+				String publicDT = rs.getString(11);
+		
+				
+				htmlTable[i]=putTestDataIntoHTMLTable(ID, TestName, SubjectName, TestType, noq, TotalMarks, TotalTime, owner, isCompleted, isShared, publicDT, 2);
 				i=i+1;
 			}
 		}catch(Exception e)
@@ -185,11 +240,50 @@ public class TestCreators {
 		return count;	
 	}
 	
+	public int getNumberOfTestsInCoaching(String coachingID)
+	{
+		PreparedStatement ps;
+		int count=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(ID) from tests where Owner=?");
+			ps.setString(1, coachingID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return count;	
+	}
 	
-	public String putTestDataIntoHTMLTable(String ID, String TestName, String SubjectName, String TestType,String noq, String TotalMarks, String TotalTime, String owner, String isCompleted, String isShared, String publicDateTime)
+	
+	public String putTestDataIntoHTMLTable(String ID, String TestName, String SubjectName, String TestType,String noq, String TotalMarks, String TotalTime, String owner, String isCompleted, String isShared, String publicDateTime, int loginType)
 	{
 		String table = null;
-		table= "<tr><td>"+ID+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+TestType+"</td><td>"+noq+"</td><td>"+TotalMarks+"</td><td>"+TotalTime+"</td><td>"+owner+"</td><td>"+isCompleted+"</td><td>"+isShared+"</td><td>"+publicDateTime+"</td></tr>";
+		if(loginType == 1)
+		{
+			table= "<tr><td>"+ID+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+TestType+"</td><td>"+noq+"</td><td>"+TotalMarks+"</td><td>"+TotalTime+"</td><td>"+owner+"</td><td>"+isCompleted+"</td><td>"+isShared+"</td><td>"+publicDateTime+"</td></tr>";
+		}
+		else if (loginType == 2)
+		{
+			//"<form action=\"/EditOrShareTest\" method=\"Post\">"+"<input type=\"hidden\" name=\"tid\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"editOrDeleteDetails\" value=\"Delete\" onClick=\"alert();\"> <input type=\"submit\" name=\"editOrDeleteDetails\" value=\"Edit\"></form>"
+			if(isCompleted.equals("No"))
+			{
+				table= "<tr><td>"+ID+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+TestType+"</td><td>"+noq+"</td><td>"+TotalMarks+"</td><td>"+TotalTime+"</td><td>"+isCompleted+"</td><td>"+isShared+"</td><td>"+publicDateTime+"</td><td>"+"<form action=\"/ViewEditOrShareTest\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"CompleteOrShare\" value=\"Complete Test\">"+"</form>"+"</td></tr>";
+			}
+			else if(isCompleted.equals("Yes") && isShared.equals("No"))
+			{
+				table= "<tr><td>"+ID+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+TestType+"</td><td>"+noq+"</td><td>"+TotalMarks+"</td><td>"+TotalTime+"</td><td>"+isCompleted+"</td><td>"+isShared+"</td><td>"+publicDateTime+"</td><td>"+"<form action=\"/ViewEditOrShareTest\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"CompleteOrShare\" value=\"Share Test\"></form>"+"</td></tr>";
+			}
+			else 
+			{
+				table= "<tr><td>"+ID+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+TestType+"</td><td>"+noq+"</td><td>"+TotalMarks+"</td><td>"+TotalTime+"</td><td>"+isCompleted+"</td><td>"+isShared+"</td><td>"+publicDateTime+"</td><td>"+"<form action=\"/ViewEditOrShareTest\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"CompleteOrShare\" value=\"View Test\"></form>"+"</td></tr>";
+			}
+			
+		}
 		return table;
 	}
 	
@@ -199,7 +293,7 @@ public class TestCreators {
 		Connection con=connectToDB();
 		try {
 			ps = con.createStatement();
-			String sql="update tests set IsShared=1, PublicDateTime=\""+date+"\" "+"where Id="+testID;
+			String sql="update tests set IsCompleted=1,IsShared=1, PublicDateTime=\""+date+"\" "+"where Id="+testID;
 			System.out.println(sql);
 			ps.executeUpdate(sql);
 		} catch (SQLException ex) 
@@ -210,5 +304,395 @@ public class TestCreators {
 		
 	}
 	
+	public void updateIsCompletedToOne(String testID) 
+	{
+		Statement ps;
+		Connection con=connectToDB();
+		try {
+			ps = con.createStatement();
+			String sql="update tests set IsCompleted=1 where Id="+testID;
+			System.out.println(sql);
+			ps.executeUpdate(sql);
+		} catch (SQLException ex) 
+		{
+			ex.printStackTrace();
+		}
+		destroyConnection(con);
+	}
+	
+	public int getNumberOfQuestionsInATest(String testID)
+	{
+		PreparedStatement ps;
+		int count=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select NumberOfQuestions from tests where ID=?");
+			ps.setString(1, testID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return count;	
+	}
+	
+	public int getNumberOfSavedQuestionsInATest(String testID)
+	{
+		PreparedStatement ps;
+		int count=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(ID) from questions where TestID=?");
+			ps.setString(1, testID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return count;	
+	}
+	
+	public String[] getQuestionIDs(String testID)
+	{
+		int n=getNumberOfSavedQuestionsInATest(testID);
+		PreparedStatement ps;
+		String[] qID=new String[n];
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select ID from questions where TestID=?");
+			ps.setString(1, testID);
+			ResultSet rs = ps.executeQuery();
+			int i=0;
+			while(rs.next())
+			{
+				qID[i] = rs.getString("ID");
+				i++;
+			}
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return qID;	
+	}
+	
+	public String getQuestionText(String questionID)
+	{
+		PreparedStatement ps;
+		String text=null;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select QuestionText from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getString("QuestionText");
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+	
+	public String getTypeOfQuestion(String questionID)
+	{
+		PreparedStatement ps;
+		String text=null;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select QuestionTypeID from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getString("QuestionTypeID");
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+	
+	public String getPositiveMarks(String questionID)
+	{
+		PreparedStatement ps;
+		String text=null;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select PositiveMarks from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getString("PositiveMarks");
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+	
+	public String getNegativeMarks(String questionID)
+	{
+		PreparedStatement ps;
+		String text=null;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select NegativeMarks from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getString("NegativeMarks");
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+	
+	public String getAnswer(String questionID)
+	{
+		PreparedStatement ps;
+		String text=null;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Answer from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getString("Answer");
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+	
+	public boolean isQuestionUpdated(String questionID, String cQuestionText, String cQuestionType, String cPMarks, String cNMarks, String cO1, String cO2, String cO3, String cO4, String cO5, String cO6, String cAnswer)
+	{
+		PreparedStatement ps;
+		String qText=null;
+		String qType,pmarks,nmarks,o1,o2,o3,o4,o5,o6,answer;
+		Connection con=connectToDB();
+		int isUpdated=0;
+		int n=getNumberOfOptionsInAQuestion(questionID);
+		try {			
+			ps = con.prepareStatement("select QuestionText,QuestionTypeID,PositiveMarks,NegativeMarks,Option1,Option2,Option3,Option4,Option5,Option6,Answer from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			qText = rs.getString("QuestionText");
+			qType = rs.getString("QuestionTypeID");
+			pmarks = rs.getString("PositiveMarks");
+			nmarks = rs.getString("NegativeMarks");
+			o1 = rs.getString("Option1");
+			o2 = rs.getString("Option2");
+			o3 = rs.getString("Option3");
+			o4 = rs.getString("Option4");
+			o5 = rs.getString("Option5");
+			o6 = rs.getString("Option6");
+			answer = rs.getString("Answer");
+			
+			/*
+			 * Code to find out number of options entered by the user.
+			 */
+			int m=0;
+			if(cO3 == null && cO4 == null && cO5 == null && cO6 == null)
+				m=2;
+			else if((cO3 != null) && cO4 == null && cO5 == null && cO6 == null)
+				m=3;
+			else if((cO4 != null) && cO5 == null && cO6 == null)
+			{
+				m=4;
+			}
+			else if((cO5 != null) && cO6 == null)
+				m=5;
+			else if ((cO6 != null))
+			{
+				m=6;
+			}
+			
+			if(n != m)
+				return true;
+			
+			/*
+			 * Code ends here
+			 */
+			if(!cQuestionText.equals(qText))
+			{
+				isUpdated=1;
+				return true;
+			}
+				
+			if(!cQuestionType.equals(qType))
+			{
+				isUpdated=1;
+				return true;
+			}				
+			if(!cPMarks.equals(pmarks))
+			{
+				isUpdated=1;
+				return true;
+			}
+			if(!cNMarks.equals(nmarks))
+			{
+				isUpdated=1;
+				return true;
+			}
+			if(!qType.equals("1"))
+			{
+				if(!cO1.equals(o1))
+				{
+					isUpdated=1;
+					return true;
+				}
+				if(!cO2.equals(o2))
+				{
+					isUpdated=1;
+					return true;
+				}
+				if(n==3)
+				{
+					if(!cO3.equals(o3))
+						isUpdated=1;
+				}
+				if(n==4)
+				{
+					if(!cO4.equals(o4))
+						isUpdated=1;
+				}
+				if(n==5)
+				{
+					if(!cO5.equals(o5))
+						isUpdated=1;
+				}
+				if(n==6)
+				{
+					if(!cO6.equals(o6))
+						isUpdated=1;
+				}
+			}
+				
+			if(!cAnswer.equals(answer))
+			{
+				isUpdated=1;
+				return true;
+			}
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		if(isUpdated == 1)
+			return true;
+		else
+			return false;
+	}
+	
+	
+	public int getNumberOfOptionsInAQuestion(String questionID)
+	{
+		int min=2;
+		PreparedStatement ps;
+		String o3 = null,o4 = null,o5 = null,o6 = null;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Option3,Option4,Option5,Option6 from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			o3 = rs.getString("Option3");
+			o4 = rs.getString("Option4");
+			o5 = rs.getString("Option5");
+			o6 = rs.getString("Option6");
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		if(o3.equals("null") && o4.equals("null") && o5.equals("null") && o6.equals("null"))
+			min=2;
+		else if((!o3.equals("null")) && o4.equals("null") && o5.equals("null") && o6.equals("null"))
+			min=3;
+		else if((!o4.equals("null")) && o5.equals("null") && o6.equals("null"))
+		{
+			min=4;
+		}
+		else if((!o5.equals("null")) && o6.equals("null"))
+			min=5;
+		else if ((!o6.equals("null")))
+		{
+			min=6;
+		}
+		System.out.println("Number of options: "+min);
+		return min;
+	}
+	
+	public String getOption(String questionID, String optionNumber)
+	{
+		PreparedStatement ps;
+		String text=null;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Option"+optionNumber+" from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getString("Option"+optionNumber);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+	
+	public int numberOfQuestionsInTestTable(String testID)
+	{
+		PreparedStatement ps;
+		int n=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select NumberOfQuestions from tests where ID=?");
+			ps.setString(1, testID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			n = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return n;	
+	}
+	
+	public int numberOfQuestionsInQuestionsTable(String testID)
+	{
+		PreparedStatement ps;
+		int n=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(1) from questions where TestID=?");
+			ps.setString(1, testID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			n = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return n;	
+	}
 	
 }

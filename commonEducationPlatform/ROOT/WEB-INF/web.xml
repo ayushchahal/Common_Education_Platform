@@ -311,5 +311,125 @@
 	   <servlet-name>ShareTest</servlet-name>
 	   <url-pattern>/ShareTest</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>CoachingDashboard</servlet-name>
+	   <servlet-class>servletActions.CoachingDashboard</servlet-class>
+	</servlet>
 
+	<servlet-mapping>
+	   <servlet-name>CoachingDashboard</servlet-name>
+	   <url-pattern>/CoachingDashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>StudentDetail</servlet-name>
+	   <servlet-class>servletActions.StudentDetail</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>StudentDetail</servlet-name>
+	   <url-pattern>/StudentDetail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>DeleteTeacher</servlet-name>
+	   <servlet-class>servletActions.DeleteTeacher</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DeleteTeacher</servlet-name>
+	   <url-pattern>/DeleteTeacher</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ViewEditOrShareTest</servlet-name>
+	   <servlet-class>servletActions.ViewEditOrShareTest</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ViewEditOrShareTest</servlet-name>
+	   <url-pattern>/ViewEditOrShareTest</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ViewTestDetails</servlet-name>
+	   <servlet-class>servletActions.ViewTestDetails</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ViewTestDetails</servlet-name>
+	   <url-pattern>/ViewTestDetails</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>EditQuestions</servlet-name>
+	   <servlet-class>servletActions.EditQuestions</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>EditQuestions</servlet-name>
+	   <url-pattern>/EditQuestions</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>EditQuestions2</servlet-name>
+	   <servlet-class>servletActions.EditQuestions2</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>EditQuestions2</servlet-name>
+	   <url-pattern>/EditQuestions2</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>PreviousQuestions</servlet-name>
+	   <servlet-class>servletActions.PreviousQuestions</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>PreviousQuestions</servlet-name>
+	   <url-pattern>/PreviousQuestions</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ShowPreviousQuestion</servlet-name>
+	   <servlet-class>servletActions.ShowPreviousQuestion</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ShowPreviousQuestion</servlet-name>
+	   <url-pattern>/ShowPreviousQuestion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ToNextQuestion</servlet-name>
+	   <servlet-class>servletActions.ToNextQuestion</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ToNextQuestion</servlet-name>
+	   <url-pattern>/ToNextQuestion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ToPreviousQuestion</servlet-name>
+	   <servlet-class>servletActions.ToPreviousQuestion</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ToPreviousQuestion</servlet-name>
+	   <url-pattern>/ToPreviousQuestion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>SaveAndExit</servlet-name>
+	   <servlet-class>servletActions.SaveAndExit</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>SaveAndExit</servlet-name>
+	   <url-pattern>/SaveAndExit</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

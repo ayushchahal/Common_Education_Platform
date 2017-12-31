@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 import java.sql.Connection;
 
 public class DBConnection { 
@@ -41,6 +41,27 @@ public class DBConnection {
 		try{ 
 			//Connection con=connectToDB();
 			PreparedStatement ps=con.prepareStatement("select LoginTypeID from LoginDetails where username=?");
+			ps.setString(1, username);
+			ResultSet rs=ps.executeQuery(); 
+			rs.next();
+			loginType=rs.getInt(1);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}  
+		destroyConnection(con);
+		return loginType;
+		
+	}
+	
+	public int getLoginID(String username)
+	{
+		int loginType=0;
+		Connection con=connectToDB();
+		try{ 
+			//Connection con=connectToDB();
+			PreparedStatement ps=con.prepareStatement("select ID from LoginDetails where username=?");
 			ps.setString(1, username);
 			ResultSet rs=ps.executeQuery(); 
 			rs.next();
@@ -195,7 +216,19 @@ public class DBConnection {
 	public String putStudentDataIntoHTMLTable(String ID, String Sname, String C, String e,String S, String Cname)
 	{
 		String table = null;
-		table= "<tr><td>"+ID+"</td><td>"+Sname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td></tr>";
+		//table= "<tr name=\"ID\"><td>"+ID+"</td><td>"+Sname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td><td>"+"<a href=\"/StudentDetail\">Details</a>"+"</td></tr>";
+		table= "<tr><td>"+ID+"</td><td>"+Sname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td><td>"+"<form action=\"/StudentDetail\" method=\"Post\">"+"<input type=\"hidden\" name=\"sid\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"details\" value=\"Details\"></form></td></tr>";
+		return table;
+	}
+	
+	public String putTeachersDataIntoHTMLTable(String ID, String Tname, String C, String e,String S, String Cname, int loginType)
+	{
+		String table = null;
+		table= "<tr><td>"+ID+"</td><td>"+Tname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td></tr>";
+		if(loginType==2)
+		{
+			table= "<tr><td>"+ID+"</td><td>"+Tname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+"<form action=\"/DeleteTeacher\" method=\"Post\">"+"<input type=\"hidden\" name=\"tid\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"editOrDeleteDetails\" value=\"Delete\" onClick=\"alert();\"> <input type=\"submit\" name=\"editOrDeleteDetails\" value=\"Edit\"></form></td></tr>";;
+		}
 		return table;
 	}
 	
@@ -236,7 +269,7 @@ public class DBConnection {
 				String Email = rs.getString(4);
 				String IsActive = rs.getString(5);
 				String CoachingName = rs.getString(6);
-				htmlTable[i]=putTeachersDataIntoHTMLTable(ID, TeacherName, CNo,Email,IsActive,CoachingName);
+				htmlTable[i]=putTeachersDataIntoHTMLTable(ID, TeacherName, CNo,Email,IsActive,CoachingName,1);
 				i=i+1;
 			}
 		}catch(Exception e)
@@ -248,12 +281,7 @@ public class DBConnection {
 
 	}
 	
-	public String putTeachersDataIntoHTMLTable(String ID, String Tname, String C, String e,String S, String Cname)
-	{
-		String table = null;
-		table= "<tr><td>"+ID+"</td><td>"+Tname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td></tr>";
-		return table;
-	}
+	
 	
 	
 	public String[] getAllCoachingName()
@@ -279,14 +307,13 @@ public class DBConnection {
 		
 	}
 	
-	public String getCoachingID(String cName)
+	public String getCoachingID(String coachingName)
 	{
 		PreparedStatement ps;
 		String ID = "1";
 		Connection con=connectToDB();
 		try {
-			String query = "select ID from coachingDetails where CoachingName ='"+cName+"'";
-			//System.out.println(query);
+			String query = "select ID from coachingDetails where CoachingName =\""+coachingName+"\"";
 			ps = con.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -296,7 +323,143 @@ public class DBConnection {
 		}
 		destroyConnection(con);
 		return ID;
-
 	}
+	
+	public String getLoggedInCoachingCity(String userName)
+	{
+		String[] c = userName.split("@");
+		String cname=c[0];
+		String city = null;
+		PreparedStatement ps;
+		Connection con=connectToDB();
+		try {
+			String query = "select City from coachingDetails where CoachingName ='"+cname+"'";
+			//System.out.println(query);
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			city = rs.getString("City");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return city;
+	}
+	
+	public String[] getSelectedCoachingStudentDetails(String coachingName)
+	{
+		String coachingID = getCoachingID(coachingName);
+		int n= getNumberOfStudentsInCoaching(coachingID);
+		String htmlTable[]= new String[n];
+		Connection con=connectToDB();
+		try {
+			PreparedStatement ps=con.prepareStatement("select s.ID,s.StudentName,s.ContactNumber,s.Email,s.IsActive,c.CoachingName from studentDetails s inner join coachingdetails c on c.ID=s.CoachingID where s.CoachingID=?");
+			ps.setString(1, coachingID);
+			ResultSet rs = ps.executeQuery();
+			
+			int i=0;
+			while(rs.next())
+			{
+				String ID = rs.getString(1);
+				String StudentName = rs.getString(2);
+				String CNo = rs.getString(3);
+				String Email = rs.getString(4);
+				String IsActive = rs.getString(5);
+				String CoachingName = rs.getString(6);
+				htmlTable[i]=putStudentDataIntoHTMLTable(ID, StudentName, CNo,Email,IsActive,CoachingName);
+				i=i+1;
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return htmlTable;	
+	}
+	
+	
+	public String[] getSelectedCoachingTeacherDetails(String coachingName)
+	{
+		String coachingID = getCoachingID(coachingName);
+		int n= getNumberOfTeacherInCoaching(coachingID);
+		String htmlTable[]= new String[n];
+		Connection con=connectToDB();
+		try {
+			PreparedStatement ps=con.prepareStatement("select s.ID,s.TeacherName,s.ContactNumber,s.Email from teacherDetails s inner join coachingdetails c on c.ID=s.CoachingID where s.IsActive=\"1\" and s.CoachingID=?");
+			ps.setString(1, coachingID);
+			ResultSet rs = ps.executeQuery();
+			
+			int i=0;
+			while(rs.next())
+			{
+				String ID = rs.getString(1);
+				String TeacherName = rs.getString(2);
+				String CNo = rs.getString(3);
+				String Email = rs.getString(4);
+				htmlTable[i]=putTeachersDataIntoHTMLTable(ID, TeacherName, CNo,Email,"1"," ",2);
+				i=i+1;
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return htmlTable;	
+	}
+
+	int getNumberOfStudentsInCoaching(String coachingID) 
+	{
+		PreparedStatement ps;
+		int count=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(ID) from studentDetails where CoachingID=?");
+			ps.setString(1, coachingID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return count;
+	}
+	
+	int getNumberOfTeacherInCoaching(String coachingID) 
+	{
+		PreparedStatement ps;
+		int count=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(ID) from teacherDetails where IsActive=\"1\" and CoachingID=?");
+			ps.setString(1, coachingID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return count;
+	}
+	
+	public void deleteTeacher(String teacherID)
+	{
+		Statement ps;
+		Connection con=connectToDB();
+		try {
+			ps = con.createStatement();
+			String sql="update teacherDetails set IsActive=0,UpdateDtTm=CURRENT_TIMESTAMP where Id="+teacherID;
+			System.out.println(sql);
+			ps.executeUpdate(sql);
+		} catch (SQLException ex) 
+		{
+			ex.printStackTrace();
+		}
+		destroyConnection(con);
+	}
+	
 	
 }

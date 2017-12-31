@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dbActions.Adders;
+import dbActions.DBConnection;
+
 @SuppressWarnings("serial")
 public class AddTeacher1 extends HttpServlet{
 
@@ -29,6 +32,9 @@ public class AddTeacher1 extends HttpServlet{
 			Cookie[] cookie = request.getCookies();
 			String cookieValue=cookie[0].getValue();
 
+			String username=(String) session.getAttribute("user");
+			int loginType=new DBConnection().getLoginType(username);
+			
 			
 			if(!sessionID.equals(cookieValue))
 			{
@@ -36,8 +42,33 @@ public class AddTeacher1 extends HttpServlet{
 			}
 			else 
 			{
-				RequestDispatcher rd=request.getRequestDispatcher("/ViewCoachingsInDropdown");  
-		        rd.include(request,response); 
+				if(loginType == 1)
+				{
+					RequestDispatcher rd=request.getRequestDispatcher("/ViewCoachingsInDropdown"); 
+					rd.include(request,response);
+				}
+				else if (loginType == 2)
+				{
+					String tname=request.getParameter("teacherName");
+					String cno1=request.getParameter("cno1");
+					String tEmail=request.getParameter("email");
+					String tStatus="1";
+					String[] c = username.split("@");
+					String coachingName=c[0];
+					if(new Adders().insertTeacherDetails(tname,cno1,tEmail,tStatus,coachingName))
+					{
+						//response.sendRedirect("/SuccessfulLogin.html");
+						RequestDispatcher rd=request.getRequestDispatcher("/DisplayTeacherLoginDetails");  
+				        rd.forward(request, response);  
+						
+					}else
+					{
+						out.println("<script type=\"text/javascript\">");  
+						out.println("alert('Error in adding coaching');");  
+						out.println("</script>");
+					}
+				}
+		         
 			}
 		}catch(Exception e)
 		{

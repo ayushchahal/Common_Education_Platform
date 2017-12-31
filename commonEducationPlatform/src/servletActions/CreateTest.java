@@ -30,7 +30,7 @@ public class CreateTest extends HttpServlet{
 			String cookieValue=cookie[0].getValue();
 
 			String username=(String) session.getAttribute("user");
-			int loginType=new DBConnection().getLoginType(username);
+			int loginID=new DBConnection().getLoginID(username);
 			if(!sessionID.equals(cookieValue))
 			{
 				out.print("<html><body>User not correctly authenticated</body></html>");
@@ -49,7 +49,7 @@ public class CreateTest extends HttpServlet{
 					testType="2";
 				
 				TestCreators tc=new TestCreators();
-				if(tc.insertTestDetails(testName, subjectName, testType, noq, totalMarks, totalTime, ""+loginType,"0","0"))
+				if(tc.insertTestDetails(testName, subjectName, testType, noq, totalMarks, totalTime, ""+loginID,"0","0"))
 				{
 					//out.print("Test Created");
 					//CreateQuestions cq=new CreateQuestions();

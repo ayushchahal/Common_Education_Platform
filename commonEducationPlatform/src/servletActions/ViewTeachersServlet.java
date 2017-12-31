@@ -31,7 +31,7 @@ public class ViewTeachersServlet extends HttpServlet {
 			
 			String username=(String) session.getAttribute("user");
 			int loginType=new DBConnection().getLoginType(username);
-			if(loginType == 1)
+			if(loginType == 1 || loginType == 2)
 			{
 				if(!sessionID.equals(cookieValue))
 				{
@@ -39,10 +39,18 @@ public class ViewTeachersServlet extends HttpServlet {
 				}
 				else {
 					DBConnection dbc=new DBConnection();
-					dbc.connectToDB();
-					String[] htmlTable=dbc.getAllTeachersDetails();
-					
-					
+					String[] htmlTable=null;
+					if(loginType == 1)
+					{
+						htmlTable=dbc.getAllTeachersDetails();
+					}	
+					else if (loginType == 2)
+					{
+						String[] c = username.split("@");
+						String coachingName=c[0];
+						htmlTable=dbc.getSelectedCoachingTeacherDetails(coachingName);
+					}
+								
 					out.println("<html>"+"<head>"+"<style>");
 					out.println("table {\r\n" + 
 							"    font-family: arial, sans-serif;\r\n" + 
@@ -64,9 +72,18 @@ public class ViewTeachersServlet extends HttpServlet {
 					out.println("<link rel=\"stylesheet\" href=\"dashboard.css\">");
 					out.println("</head>");
 					out.println("<body>");
-					out.println("<a href=\"/Dashboard\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"><br><br><br><br><br><br>");
+					out.println("<a href=\"/Dashboard\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"></form><br><br><br><br><br><br>");
 					out.println("<table>");
-					String tableheaders = "<tr><th>Teacher ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>IsActive</th><th>CoachingName</th></tr>";
+					String tableheaders = "";
+					if(loginType == 1)
+					{
+						tableheaders = "<tr><th>Teacher ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>IsActive</th><th>CoachingName</th></tr>";
+					}
+					else if (loginType == 2)
+					{
+						tableheaders = "<tr><th>Teacher ID</th><th>Name</th><th>Contact No.</th><th>Email</th><th>Actions</th></tr>";
+					}
+					
 					out.println(tableheaders);
 					for(int j=0;j<htmlTable.length;j++)
 					{

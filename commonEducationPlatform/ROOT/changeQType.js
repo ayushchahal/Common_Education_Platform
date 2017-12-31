@@ -1,5 +1,17 @@
 function changeQType()
 {
+	var x = document.getElementsByName("options");
+	for(var i=0;i<x.length;i++)
+     {
+     	x[i].checked = false;
+     } 
+
+	var y = document.getElementsByClassName("options");
+	for(var i=0;i<y.length;i++)
+     {
+     	y[i].value = "";
+     } 
+	
 	var type=document.getElementById("qType").value;
 	
 	if(type=="1")
