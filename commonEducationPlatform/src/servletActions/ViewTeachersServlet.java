@@ -72,7 +72,13 @@ public class ViewTeachersServlet extends HttpServlet {
 					out.println("<link rel=\"stylesheet\" href=\"dashboard.css\">");
 					out.println("</head>");
 					out.println("<body>");
-					out.println("<a href=\"/Dashboard\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"></form><br><br><br><br><br><br>");
+					String dashboard = "Dashboard";
+					if(loginType == 2)
+						dashboard = "CoachingDashboard";
+					else if(loginType == 3)
+						dashboard = "TeacherDashboard";
+					
+					out.println("<a href=\"/"+dashboard+"\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"></form><br><br><br><br><br><br>");
 					out.println("<table>");
 					String tableheaders = "";
 					if(loginType == 1)

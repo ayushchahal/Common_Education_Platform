@@ -76,16 +76,18 @@ public class CreateQuestions extends HttpServlet{
 					
 				if(flag == 0)
 				{
+					String sss = "<script src=\"http://js.nicedit.com/nicEdit-latest.js\" type=\"text/javascript\"></script><script type=\"text/javascript\">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>";
 					String html1="<html>\r\n" + 
 							"	<head>\r\n" + 
 							"		<meta charset=\"ISO-8859-1\">\r\n" + 
 							"		<title>Create a test</title>\r\n" + 
 							"		<link rel=\"stylesheet\" href=\"questions.css\">\r\n" + 
 							"<script src=\"addRemoveOptions.js\"></script>"+
-							"<script src=\"changeQType.js\"></script>"+
+							"<script src=\"changeQType.js\"></script>"+ sss+
 							"	</head>\r\n" + 
 							"<body>";
 					
+					//String labels = "<label style>Label: </label>"+"<input type=\"text\" id=\"labels\" name=\"labels\"></input><br><br>";
 					String tid="<input type=\"hidden\" id=\"tid\" name=\"tid\" style=\"display:none;\" value=\""+testID+"\">";
 					String qno="<input type=\"hidden\" id=\"qno\" name=\"qno\" style=\"display:none;\" value=\""+questionNumber+"\">";
 					String noq1="<input type=\"hidden\" id=\"noq\" name=\"noq\" style=\"display:none;\" value=\""+noq+"\">";

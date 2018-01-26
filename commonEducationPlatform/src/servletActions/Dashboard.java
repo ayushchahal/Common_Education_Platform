@@ -38,7 +38,7 @@ public class Dashboard extends HttpServlet
 				}
 				else {
 					String html1="<html><head><link rel=\"stylesheet\" href=\"dashboard.css\"></head><body><a href=\"/Dashboard\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\">\r\n" + 
-							"<input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"><br><br><br><b>Login Successful</b><br><br><br><br>Welcome";
+							"<input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"><br><br><br><b>Login Successful</b><br><br><br><br>";
 					
 					String html2="<br><br><br><a href=\"/ViewCoachingServlet\">View Coaching</a><br><br><a href=\"/ViewTeachersServlet\">View Teachers</a><br><br><a href=\"/ViewStudentsServlet\">View Students</a><br><br>";
 					String html3="<a href=\"/DisplayAddCoaching\">Add Coaching</a><br><br><a href=\"/DisplayAddTeacher\">Add Teacher</a><br><br><a href=\"/DisplayAddStudent\">Add Student</a>";

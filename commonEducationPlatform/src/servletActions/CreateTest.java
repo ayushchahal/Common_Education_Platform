@@ -49,7 +49,21 @@ public class CreateTest extends HttpServlet{
 					testType="2";
 				
 				TestCreators tc=new TestCreators();
-				if(tc.insertTestDetails(testName, subjectName, testType, noq, totalMarks, totalTime, ""+loginID,"0","0"))
+				DBConnection dbc = new DBConnection();
+				int loginType =  dbc.getLoginType(username);
+				String testOwner = "";
+				String createdBy = "";
+				if(loginType == 2)
+				{
+					testOwner = dbc.getCoachingIDFromLoginDetails(username);
+					createdBy = testOwner;
+				}
+				if(loginType == 3)
+				{
+					testOwner = dbc.getCoachingIDFromTeacherLoginDetails(""+loginID);
+					createdBy = dbc.getTeacherIDFromTeacherLoginDetails(""+loginID);
+				}
+				if(tc.insertTestDetails(testName, subjectName, testType, noq, totalMarks, totalTime, testOwner,"0","0",createdBy))
 				{
 					//out.print("Test Created");
 					//CreateQuestions cq=new CreateQuestions();

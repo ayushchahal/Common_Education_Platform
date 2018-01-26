@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dbActions.Adders;
+import dbActions.DBConnection;
 import dynamicResponses.CreateCoachingLogin;
 
 @SuppressWarnings("serial")
@@ -59,6 +60,7 @@ public class AddCoaching extends HttpServlet {
 					//RequestDispatcher rd=request.getRequestDispatcher("/DisplayCoachingLoginDetails");  
 			       // rd.include(request, response);
 					//displayCoachingLoginDetails(cname,city);
+					String coachingID = new DBConnection().getCoachingID(cname);
 					CreateCoachingLogin createC=new CreateCoachingLogin();
 					String loginID=createC.createUserID(cname, city);
 					String passwd=createC.createPassword(cname, city);
@@ -78,7 +80,7 @@ public class AddCoaching extends HttpServlet {
 					
 					out.println("<form action=\"/Dashboard\" method=\"get\"><input type=\"submit\" value=\"Go to Homepage\" /></form>");
 					
-					if(add.insertLoginDetails(loginID, passwd, "2"))
+					if(add.insertLoginDetails(loginID, passwd, "2",coachingID))
 					{
 						out.println("Login ID of Coaching <b>"+cname+"</b> is <b>"+loginID+"</b>");
 						out.println("<br>Password is <b>"+passwd+"</b>");

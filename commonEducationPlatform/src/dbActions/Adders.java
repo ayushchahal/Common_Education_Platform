@@ -95,7 +95,7 @@ public class Adders {
 	
 	
 	
-	public boolean insertLoginDetails(String username, String passwd,String LoginTypeID)
+	public boolean insertLoginDetails(String username, String passwd,String LoginTypeID, String coachingID)
 	{
 		Statement ps;
 		boolean status=false;
@@ -105,7 +105,7 @@ public class Adders {
 			ps = con.createStatement();
 			//String sql = "insert into logindetails (UserName,Password,FailedLoginAttempts,LoginTypeID) values (\""+username+"\",\""+passwd+"\",\""+FailedLoginAttempts+"\","+LoginTypeID+")";
 			//System.out.println(sql);
-			ps.executeUpdate("insert into logindetails (UserName,Password,FailedLoginAttempts,LoginTypeID) values (\""+username+"\",\""+passwd+"\",\""+FailedLoginAttempts+"\","+LoginTypeID+")");
+			ps.executeUpdate("insert into logindetails (UserName,Password,FailedLoginAttempts,LoginTypeID, LoginUserID) values (\""+username+"\",\""+passwd+"\",\""+FailedLoginAttempts+"\", \""+LoginTypeID+"\","+coachingID+")");
 			status=true;
 		} catch (SQLException ex) 
 		{

@@ -325,6 +325,60 @@ public class DBConnection {
 		return ID;
 	}
 	
+	public String getCoachingIDFromTeacherName(String teacherName)
+	{
+		PreparedStatement ps;
+		String ID = "1";
+		Connection con=connectToDB();
+		try {
+			String query = "select CoachingID from teacherDetails where TeacherName =\""+teacherName+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			ID = rs.getString("CoachingID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return ID;
+	}
+	
+	public String getTeacherIDFromTeacherDetails(String teacherName, String contactNumber, String email)
+	{
+		PreparedStatement ps;
+		String ID = "1";
+		Connection con=connectToDB();
+		try {
+			String query = "select ID from teacherDetails where TeacherName =\""+teacherName+"\" and ContactNumber = \""+contactNumber+"\" and Email = \""+email+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			ID = rs.getString("ID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return ID;
+	}
+	
+	public String getStudentIDFromStudentDetails(String studentName, String contactNumber, String email)
+	{
+		PreparedStatement ps;
+		String ID = "1";
+		Connection con=connectToDB();
+		try {
+			String query = "select ID from studentDetails where StudentName =\""+studentName+"\" and ContactNumber = \""+contactNumber+"\" and Email = \""+email+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			ID = rs.getString("ID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return ID;
+	}
+	
 	public String getLoggedInCoachingCity(String userName)
 	{
 		String[] c = userName.split("@");
@@ -459,6 +513,168 @@ public class DBConnection {
 			ex.printStackTrace();
 		}
 		destroyConnection(con);
+	}
+	
+	public String[] getSelectedTeacherStudentDetails(String coachingID)
+	{
+		int n= getNumberOfStudentsInCoaching(coachingID);
+		String htmlTable[]= new String[n];
+		Connection con=connectToDB();
+		try {
+			PreparedStatement ps=con.prepareStatement("select s.ID,s.StudentName,s.ContactNumber,s.Email,s.IsActive,c.CoachingName from studentDetails s inner join coachingdetails c on c.ID=s.CoachingID where s.CoachingID=?");
+			ps.setString(1, coachingID);
+			ResultSet rs = ps.executeQuery();
+			
+			int i=0;
+			while(rs.next())
+			{
+				String ID = rs.getString(1);
+				String StudentName = rs.getString(2);
+				String CNo = rs.getString(3);
+				String Email = rs.getString(4);
+				String IsActive = rs.getString(5);
+				String CoachingName = rs.getString(6);
+				htmlTable[i]=putStudentDataIntoHTMLTable(ID, StudentName, CNo,Email,IsActive,CoachingName);
+				i=i+1;
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return htmlTable;	
+	}
+	
+	public String getCoachingIDFromLoginDetails(String username)
+	{
+		PreparedStatement ps;
+		String ID = "1";
+		Connection con=connectToDB();
+		try {
+			String query = "select LoginUserID from loginDetails where LoginTypeID = 2 and UserName =\""+username+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			ID = rs.getString("LoginUserID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return ID;
+	}
+	
+	public String getStudentIDFromLoginDetails(String username)
+	{
+		PreparedStatement ps;
+		String ID = "1";
+		Connection con=connectToDB();
+		try {
+			String query = "select LoginUserID from loginDetails where LoginTypeID = 4 and UserName =\""+username+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			ID = rs.getString("LoginUserID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return ID;
+	}
+	
+	public String getCoachingIDFromTeacherLoginDetails(String loginID)
+	{
+		PreparedStatement ps;
+		String LoginUserID = "1";
+		String cID = "";
+		Connection con=connectToDB();
+		try {
+			String query = "select LoginUserID from loginDetails where ID =\""+loginID+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			LoginUserID = rs.getString("LoginUserID");
+			query = "select CoachingID from teacherDetails where ID =\""+LoginUserID+"\"";
+			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			rs.next();
+			cID = rs.getString("CoachingID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return cID;
+	}
+	
+	public String getTeacherIDFromTeacherLoginDetails(String loginID)
+	{
+		PreparedStatement ps;
+		String LoginUserID = "1";
+		Connection con=connectToDB();
+		try {
+			String query = "select LoginUserID from loginDetails where ID =\""+loginID+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			LoginUserID = rs.getString("LoginUserID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return LoginUserID;
+	}
+	
+	public String getCoachingIDFromCoachingLoginDetails(String loginID)
+	{
+		PreparedStatement ps;
+		String LoginUserID = "1";
+		Connection con=connectToDB();
+		try {
+			String query = "select LoginUserID from loginDetails where LoginTypeID = \"2\" and ID =\""+loginID+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			LoginUserID = rs.getString("LoginUserID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return LoginUserID;
+	}
+	
+	public String getStudentName(String studentID)
+	{
+		PreparedStatement ps;
+		String studentName = "";
+		Connection con=connectToDB();
+		try {
+			String query = "select StudentName from studentDetails where ID = \""+studentID+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			studentName = rs.getString("StudentName");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return studentName;
+	}
+	
+	public String getStudentIDFromLoginName(String username)
+	{
+		PreparedStatement ps;
+		String LoginUserID = "";
+		Connection con=connectToDB();
+		try {
+			String query = "select LoginUserID from loginDetails where UserName = \""+username+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			LoginUserID = rs.getString("LoginUserID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return LoginUserID;
 	}
 	
 	

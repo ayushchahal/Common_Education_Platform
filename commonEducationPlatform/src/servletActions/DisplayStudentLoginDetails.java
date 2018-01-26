@@ -77,8 +77,8 @@ public class DisplayStudentLoginDetails extends HttpServlet{
 					out.print(formAction1);
 				else if (loginType == 2)
 					out.print(formAction2);
-				
-				if(new Adders().insertLoginDetails(loginID, passwd, "4"))
+				String studentID = new DBConnection().getStudentIDFromStudentDetails(STUDENT_NAME, request.getParameter("cno1"), request.getParameter("email"));
+				if(new Adders().insertLoginDetails(loginID, passwd, "4", studentID))
 				{
 					out.println("Login ID of student <b>"+STUDENT_NAME+"</b> is <b>"+loginID+"</b>");
 					out.println("<br>Password is <b>"+passwd+"</b>");

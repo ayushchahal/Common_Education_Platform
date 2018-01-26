@@ -32,14 +32,14 @@ public class TestCreators {
 		}
 	}
 	
-	public boolean insertTestDetails(String testName, String subjectName, String testType, String noq, String totalMarks, String totalTime, String username, String isCompleted, String isShared)
+	public boolean insertTestDetails(String testName, String subjectName, String testType, String noq, String totalMarks, String totalTime, String username, String isCompleted, String isShared, String createdBy)
 	{
 		Statement ps;
 		boolean status=false;
 		Connection con=connectToDB();
 		try {
 			ps = con.createStatement();
-			String sql="insert into Tests (TestName,SubjectName,TestType,NumberOfQuestions,TotalMarks,TotalTime,Owner,IsCompleted,IsShared) values (\""+testName+"\",\""+subjectName+"\",\""+testType+"\",\""+noq+"\",\""+totalMarks+"\",\""+totalTime+"\",\""+username+"\",\""+isCompleted+"\",\""+isShared+"\")";
+			String sql="insert into Tests (TestName,SubjectName,TestType,NumberOfQuestions,TotalMarks,TotalTime,Owner,IsCompleted,IsShared,CreatedBy) values (\""+testName+"\",\""+subjectName+"\",\""+testType+"\",\""+noq+"\",\""+totalMarks+"\",\""+totalTime+"\",\""+username+"\",\""+isCompleted+"\",\""+isShared+"\",\""+createdBy+"\")";
 			System.out.println(sql);
 			ps.executeUpdate(sql);
 			status=true;
@@ -170,12 +170,69 @@ public class TestCreators {
 	
 	public String[] getAllCoachingTests(String loginID)
 	{
-		int n= getNumberOfTestsInCoaching(loginID);
+		String coachingID = new DBConnection().getCoachingIDFromCoachingLoginDetails(loginID);
+		int n= getNumberOfTestsInCoaching(coachingID);
 		String htmlTable[]= new String[n];
 		Connection con=connectToDB();
 		try {
-			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests where Owner=?");
-			ps.setString(1, loginID);
+			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests where Owner = ?");
+			ps.setString(1, coachingID);
+			ResultSet rs = ps.executeQuery();
+			int i=0;
+			while(rs.next())
+			{
+				String ID = rs.getString(1);
+				String TestName = rs.getString(2);
+				String SubjectName = rs.getString(3);
+				String TestType = rs.getString(4);
+				if(TestType.equals("1"))
+					TestType="Standard";
+				else
+					TestType="Time-attack";
+				String noq = rs.getString(5);
+				String TotalMarks = rs.getString(6);
+				String TotalTime = rs.getString(7);
+				String owner = rs.getString(8);
+				String isCompleted = rs.getString(9);
+				if(isCompleted.equals("1"))
+					isCompleted = "Yes";
+				else isCompleted = "No";
+				String isShared = rs.getString(10);
+				if(isShared == null)
+				{
+					isShared="No";
+				}
+				else {
+					if(isShared.equals("1"))
+						isShared = "Yes";
+					else isShared = "No";
+					
+				}
+				
+				String publicDT = rs.getString(11);
+		
+				
+				htmlTable[i]=putTestDataIntoHTMLTable(ID, TestName, SubjectName, TestType, noq, TotalMarks, TotalTime, owner, isCompleted, isShared, publicDT, 2);
+				i=i+1;
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return htmlTable;
+	}
+	
+	
+	public String[] getAllTeacherTests(String loginID)
+	{
+		String teacherID = new DBConnection().getTeacherIDFromTeacherLoginDetails(loginID);
+		int n= getNumberOfTestsForTeacher(teacherID);
+		String htmlTable[]= new String[n];
+		Connection con=connectToDB();
+		try {
+			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests where CreatedBy=?");
+			ps.setString(1, teacherID);
 			ResultSet rs = ps.executeQuery();
 			int i=0;
 			while(rs.next())
@@ -248,6 +305,26 @@ public class TestCreators {
 		try {			
 			ps = con.prepareStatement("select Count(ID) from tests where Owner=?");
 			ps.setString(1, coachingID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return count;	
+	}
+	
+	
+	public int getNumberOfTestsForTeacher(String teacherID)
+	{
+		PreparedStatement ps;
+		int count=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(ID) from tests where CreatedBy=?");
+			ps.setString(1, teacherID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);
@@ -694,5 +771,10 @@ public class TestCreators {
 		destroyConnection(con);
 		return n;	
 	}
+	
+
+	
+	
+		
 	
 }

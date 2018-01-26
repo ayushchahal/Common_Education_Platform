@@ -432,4 +432,56 @@
 	   <url-pattern>/SaveAndExit</url-pattern>
 	</servlet-mapping>
 	
+	
+	<servlet>
+	   <servlet-name>TeacherDashboard</servlet-name>
+	   <servlet-class>servletActions.TeacherDashboard</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>TeacherDashboard</servlet-name>
+	   <url-pattern>/TeacherDashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>StudentDashboard</servlet-name>
+	   <servlet-class>servletActions.StudentDashboard</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>StudentDashboard</servlet-name>
+	   <url-pattern>/StudentDashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>MyTests</servlet-name>
+	   <servlet-class>servletActions.MyTests</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>MyTests</servlet-name>
+	   <url-pattern>/MyTests</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>TakeTest</servlet-name>
+	   <servlet-class>servletActions.TakeTest</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>TakeTest</servlet-name>
+	   <url-pattern>/TakeTest</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>DisplayQuestions</servlet-name>
+	   <servlet-class>servletActions.DisplayQuestions</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>DisplayQuestions</servlet-name>
+	   <url-pattern>/DisplayQuestions</url-pattern>
+	</servlet-mapping>
+	
+	
 </web-app>

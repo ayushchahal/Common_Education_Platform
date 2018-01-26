@@ -30,7 +30,7 @@ public class DisplayCreateTestPage extends HttpServlet
 			//System.out.println(cookieValue);
 			String username=(String) session.getAttribute("user");
 			int loginType=new DBConnection().getLoginType(username);
-			if(loginType == 1 || loginType ==  2)
+			if(loginType == 1 || loginType ==  2 || loginType ==  3)
 			{
 				if(!sessionID.equals(cookieValue))
 				{
