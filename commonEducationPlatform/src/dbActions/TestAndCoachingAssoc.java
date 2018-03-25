@@ -104,6 +104,10 @@ public class TestAndCoachingAssoc {
 		//table= "<tr name=\"ID\"><td>"+ID+"</td><td>"+Sname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td><td>"+"<a href=\"/StudentDetail\">Details</a>"+"</td></tr>";
 		table= "<tr><td>"+SNo+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+noq+"</td><td>"+tmarks+"</td><td>"+ttime+"</td><td>"+"<form action=\"/TakeTest\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+testID+"\">"+"<input type=\"hidden\" name=\"studentID\" value=\""+StudentID+"\">"+"<input type=\"submit\" name=\"details\" value=\"TakeTest\"></form></td></tr>";
 		
+		if(new TestCreators().doesStudentTestAssociationExist(StudentID, testID))
+		{
+			table= "<tr><td>"+SNo+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+noq+"</td><td>"+tmarks+"</td><td>"+ttime+"</td><td>"+"<form action=\"/TakeTest\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+testID+"\">"+"<input type=\"hidden\" name=\"studentID\" value=\""+StudentID+"\">"+"<input type=\"submit\" name=\"details\" value=\"Continue Test\"></form></td></tr>";
+		}
 		if(isTestTaken(StudentID,testID))
 		{
 			table= "<tr><td>"+SNo+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+noq+"</td><td>"+tmarks+"</td><td>"+ttime+"</td><td>"+"<form action=\"/MyReport\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+testID+"\">"+"<input type=\"hidden\" name=\"studentID\" value=\""+StudentID+"\">"+"<input type=\"submit\" name=\"details\" value=\"View Report\"></form></td></tr>";

@@ -41,7 +41,15 @@ public class TakeTest extends HttpServlet{
 				request.setAttribute("studentID", studentID);
 				request.setAttribute("testID", testID);
 				TestCreators tc = new TestCreators();
-				tc.createStudentTestAssociation(studentID, testID, 0);
+				if(tc.doesStudentTestAssociationExist(studentID, testID))
+				{
+					
+				}
+				else
+				{
+					tc.createStudentTestAssociation(studentID, testID, 0);
+				}
+				
 				RequestDispatcher rd=request.getRequestDispatcher("/DisplayQuestions");
 				rd.forward(request,response);
 			

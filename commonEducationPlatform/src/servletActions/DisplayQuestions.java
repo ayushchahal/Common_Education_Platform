@@ -80,8 +80,9 @@ public class DisplayQuestions extends HttpServlet{
 				String negativeMarks = tc.getNegativeMarks(questionID);
 				
 				
-				String html = "<html><head></head>";
+				String html = "<html><head><script src=\"javascript\timer.js\"></script></head>";
 				String body = "<body>";
+				String timer = "<div>Time left = <span id=\"Time left\"></span></div>";
 				String form = "<form action=\"SubmitQuestion\" method=\"Post\" id=\"questionPaper\">";
 				String questionNumberlabel = "<b><label>Question "+questionNumber+" of "+numberOfQuestions+"</label></b>";
 				String questionTextLabel = "<label>"+questionText+"</label>";
@@ -138,11 +139,11 @@ public class DisplayQuestions extends HttpServlet{
 				}
 				
 				if(questionNumber == 1)
-					out.print(html+body+form+hiddenQuestionID+hiddenStudentID+hiddenTestID+hiddenquestionNumber+questionNumberlabel+br+questionTextLabel+br+positiveMarksLabel+br+negativeMarksLabel+br+rb1+br+nextButton+br+submit+closeForm+closeBody+closehtml);
+					out.print(html+body+timer+form+hiddenQuestionID+hiddenStudentID+hiddenTestID+hiddenquestionNumber+questionNumberlabel+br+questionTextLabel+br+positiveMarksLabel+br+negativeMarksLabel+br+rb1+br+nextButton+br+submit+closeForm+closeBody+closehtml);
 				else if(questionNumber == numberOfQuestions)
-					out.print(html+body+form+hiddenQuestionID+hiddenStudentID+hiddenTestID+hiddenquestionNumber+questionNumberlabel+br+questionTextLabel+br+positiveMarksLabel+br+negativeMarksLabel+br+rb1+br+previousButton+br+br+submit+closeForm+closeBody+closehtml);
+					out.print(html+body+timer+form+hiddenQuestionID+hiddenStudentID+hiddenTestID+hiddenquestionNumber+questionNumberlabel+br+questionTextLabel+br+positiveMarksLabel+br+negativeMarksLabel+br+rb1+br+previousButton+br+br+submit+closeForm+closeBody+closehtml);
 				else
-					out.print(html+body+form+hiddenQuestionID+hiddenStudentID+hiddenTestID+hiddenquestionNumber+questionNumberlabel+br+questionTextLabel+br+positiveMarksLabel+br+negativeMarksLabel+br+rb1+br+previousButton+br+nextButton+br+submit+closeForm+closeBody+closehtml);
+					out.print(html+body+timer+form+hiddenQuestionID+hiddenStudentID+hiddenTestID+hiddenquestionNumber+questionNumberlabel+br+questionTextLabel+br+positiveMarksLabel+br+negativeMarksLabel+br+rb1+br+previousButton+br+nextButton+br+submit+closeForm+closeBody+closehtml);
 				
 		
 			}
