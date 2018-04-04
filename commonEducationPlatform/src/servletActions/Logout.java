@@ -15,7 +15,13 @@ public class Logout extends HttpServlet {
 	  
 	    response.setContentType("text/html");  
 	    HttpSession session = request.getSession(false);
-	    session.invalidate();
-	    response.sendRedirect("/LoginPage.html");
+	    try{
+	    	session.invalidate();
+	    }
+	    catch(NullPointerException e)
+	    {
+	    	System.out.println("Manual log out because session has expired");
+	    }
+	    response.sendRedirect("/LoginPage");
 	}
 }

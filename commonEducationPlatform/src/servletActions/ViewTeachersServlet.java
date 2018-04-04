@@ -51,26 +51,12 @@ public class ViewTeachersServlet extends HttpServlet {
 						htmlTable=dbc.getSelectedCoachingTeacherDetails(coachingName);
 					}
 								
-					out.println("<html>"+"<head>"+"<style>");
-					out.println("table {\r\n" + 
-							"    font-family: arial, sans-serif;\r\n" + 
-							"    border-collapse: collapse;\r\n" + 
-							"    width: 100%;\r\n" + 
-							"}\r\n" + 
-							"\r\n" + 
-							"td, th {\r\n" + 
-							"    border: 1px solid #dddddd;\r\n" + 
-							"    text-align: left;\r\n" + 
-							"    padding: 8px;\r\n" + 
-							"}\r\n" + 
-							"\r\n" + 
-							"tr:nth-child(even) {\r\n" + 
-							"    background-color: #dddddd;\r\n" + 
-							"}");
+					out.println("<html>"+"<head>");
+					String bootstrapCDN = "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\">";
+					out.print(bootstrapCDN);
 					
-					out.println("</style>");
-					out.println("<link rel=\"stylesheet\" href=\"dashboard.css\">");
 					out.println("</head>");
+					
 					out.println("<body>");
 					String dashboard = "Dashboard";
 					if(loginType == 2)
@@ -78,8 +64,22 @@ public class ViewTeachersServlet extends HttpServlet {
 					else if(loginType == 3)
 						dashboard = "TeacherDashboard";
 					
-					out.println("<a href=\"/"+dashboard+"\"><img id=\"Logo\" border=\"0\" src=\"CommonPlatforms.jpg\" width=\"175\" height=\"100\"></a><form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\"></form><br><br><br><br><br><br>");
-					out.println("<table>");
+					String breadcrumbs= "<nav aria-label=\"breadcrumb\">\r\n" + 
+							"  <ol class=\"breadcrumb\">\r\n" + 
+							"    <li class=\"breadcrumb-item\"><a href=\""+dashboard+"#\">Home</a></li>\r\n" + 
+							"    <li class=\"breadcrumb-item active\" aria-current=\"page\">View Teachers</li>\r\n" + 
+							"  </ol>\r\n" + 
+							"</nav>";
+					
+					String cardStart = "<div class=\"card border-0\">";
+					String cardHeader = "<div class=\"card-header\"><h5>Test Plant<form action=\"/Logout\" method=\"post\"><input name=\"Submit\" type=\"submit\" value=\"Logout\" id=\"Logout\" class=\"btn btn-secondary float-right\"></form></h5></div>";
+					
+					out.print(cardStart+cardHeader);
+					
+					String cardBodyStart = "<div class=\"card-body\">";
+					out.print(cardBodyStart);
+					out.print(breadcrumbs);
+					out.println("<table class=\"table table-striped table-bordered\">");
 					String tableheaders = "";
 					if(loginType == 1)
 					{
@@ -97,7 +97,7 @@ public class ViewTeachersServlet extends HttpServlet {
 					}
 					
 					out.println("</table>");
-					out.println("</body></html>");
+					out.println("</div></div></body></html>");
 					
 				}
 			}

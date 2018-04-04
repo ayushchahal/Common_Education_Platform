@@ -216,8 +216,12 @@ public class DBConnection {
 	public String putStudentDataIntoHTMLTable(String ID, String Sname, String C, String e,String S, String Cname)
 	{
 		String table = null;
+		if(S.equals("0"))
+			S="In Active";
+		else
+			S="Active";
 		//table= "<tr name=\"ID\"><td>"+ID+"</td><td>"+Sname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td><td>"+"<a href=\"/StudentDetail\">Details</a>"+"</td></tr>";
-		table= "<tr><td>"+ID+"</td><td>"+Sname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td><td>"+"<form action=\"/StudentDetail\" method=\"Post\">"+"<input type=\"hidden\" name=\"sid\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"details\" value=\"Details\"></form></td></tr>";
+		table= "<tr><td>"+ID+"</td><td>"+Sname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td><td>"+"<form action=\"/StudentDetail\" method=\"Post\">"+"<input type=\"hidden\" name=\"sid\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"details\" class=\"btn btn-info\" value=\"Details\"></form></td></tr>";
 		return table;
 	}
 	
@@ -227,7 +231,7 @@ public class DBConnection {
 		table= "<tr><td>"+ID+"</td><td>"+Tname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+S+"</td><td>"+Cname+"</td></tr>";
 		if(loginType==2)
 		{
-			table= "<tr><td>"+ID+"</td><td>"+Tname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+"<form action=\"/DeleteTeacher\" method=\"Post\">"+"<input type=\"hidden\" name=\"tid\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"editOrDeleteDetails\" value=\"Delete\" onClick=\"alert();\"> <input type=\"submit\" name=\"editOrDeleteDetails\" value=\"Edit\"></form></td></tr>";;
+			table= "<tr><td>"+ID+"</td><td>"+Tname+"</td><td>"+C+"</td><td>"+e+"</td><td>"+"<form action=\"/DeleteTeacher\" method=\"Post\">"+"<input type=\"hidden\" name=\"tid\" value=\""+ID+"\">"+"<input type=\"submit\" name=\"editOrDeleteDetails\" value=\"Delete\" class=\"btn btn-danger\" onClick=\"alert();\"> <input type=\"submit\" name=\"editOrDeleteDetails\" class=\"btn btn-info\" value=\"Edit\"></form></td></tr>";;
 		}
 		return table;
 	}
@@ -675,6 +679,42 @@ public class DBConnection {
 		}
 		destroyConnection(con);
 		return LoginUserID;
+	}
+	
+	public String getCoachingIDFromLoginName(String username)
+	{
+		PreparedStatement ps;
+		String LoginUserID = "";
+		Connection con=connectToDB();
+		try {
+			String query = "select LoginUserID from loginDetails where UserName = \""+username+"\" and LoginTypeID=\"2\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			LoginUserID = rs.getString("LoginUserID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return LoginUserID;
+	}
+	
+	public String getCoachingNameFromCoachingID(String coachingID)
+	{
+		PreparedStatement ps;
+		String coachingName = "";
+		Connection con=connectToDB();
+		try {
+			String query = "select CoachingName from coachingDetails where ID = \""+coachingID+"\"";
+			ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			coachingName = rs.getString("CoachingName");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return coachingName;
 	}
 	
 	

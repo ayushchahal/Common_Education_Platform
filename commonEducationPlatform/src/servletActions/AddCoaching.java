@@ -64,8 +64,8 @@ public class AddCoaching extends HttpServlet {
 					CreateCoachingLogin createC=new CreateCoachingLogin();
 					String loginID=createC.createUserID(cname, city);
 					String passwd=createC.createPassword(cname, city);
-					System.out.println(loginID);
-					System.out.println(passwd);
+					System.out.println("Login ID is: "+loginID);
+					System.out.println("Password is: "+passwd);
 					out.println("<html>\r\n" + 
 							"	<head>\r\n" + 
 							"		<title>User successfully created</title>\r\n" +

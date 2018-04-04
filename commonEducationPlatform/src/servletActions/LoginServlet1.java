@@ -35,8 +35,8 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 		HttpSession session = request.getSession();
 		session.setAttribute("user", n);
 		request.setAttribute("error", "none");
-		//Setting Max Idle timeout for session to 60 seconds
-		session.setMaxInactiveInterval(60);
+		//Setting Max Idle timeout for session to 60 minutes
+		//session.setMaxInactiveInterval(60);
 		
 		int loginType=dbc.getLoginType(n);
 		

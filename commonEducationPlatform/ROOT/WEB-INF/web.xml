@@ -510,7 +510,7 @@
 	
 	<servlet-mapping>
 	   <servlet-name>LoginPage</servlet-name>
-	   <url-pattern>/</url-pattern>
+	   <url-pattern>/LoginPage</url-pattern>
 	</servlet-mapping>
 	
 	
