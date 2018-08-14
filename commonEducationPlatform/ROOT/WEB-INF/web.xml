@@ -513,5 +513,4 @@
 	   <url-pattern>/LoginPage</url-pattern>
 	</servlet-mapping>
 	
-	
 </web-app>

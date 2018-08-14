@@ -51,6 +51,9 @@ public class CreateQuestions extends HttpServlet{
 				String o5 = "";
 				String o6 = "";
 				int noOfOptionsInAQuestion = 0;
+				String timeLimitType = "";
+				TestCreators tc = new TestCreators();
+				timeLimitType = tc.getTimeLimitType(""+testID);
 				
 				if(questionID == null)
 				{
@@ -58,7 +61,6 @@ public class CreateQuestions extends HttpServlet{
 				}
 				else
 				{
-					TestCreators tc = new TestCreators();
 					questionText = tc.getQuestionText(""+questionID);
 					typeOfQuestion = tc.getTypeOfQuestion(""+questionID);
 					pMarks = tc.getPositiveMarks(""+questionID);
@@ -76,8 +78,19 @@ public class CreateQuestions extends HttpServlet{
 					
 				if(flag == 0)
 				{
-					String sss = "<script src=\"http://js.nicedit.com/nicEdit-latest.js\" type=\"text/javascript\"></script><script type=\"text/javascript\">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>";
-					sss = "";
+					String sss = "<script src=\"http://js.nicedit.com/nicEdit-latest.js\" type=\"text/javascript\"></script><script type=\"text/javascript\">\r\n" + 
+							"//<![CDATA[\r\n" + 
+							"bkLib.onDomLoaded(function() {\r\n" + 
+							"    nicEditors.editors.push(\r\n" + 
+							"        new nicEditor().panelInstance(\r\n" + 
+							"            document.getElementById('question')\r\n" + 
+							"        )\r\n" + 
+							"    );\r\n" + 
+							"});\r\n" + 
+							"//]]>\r\n" + 
+							"</script>";
+					//sss = "";
+					
 					String html1="<html>\r\n" + 
 							"	<head>\r\n" + 
 							"		<meta charset=\"ISO-8859-1\">\r\n" + 
@@ -98,7 +111,17 @@ public class CreateQuestions extends HttpServlet{
 					String dropdown="<div class=\"lhs\"><label style>Type of Question:</label><br><select name=\"qType\" id=\"qType\" onChange=\"changeQType()\"><option value=\"1\">True/False</option><option value=\"2\" selected>Multiple choice</option><option value=\"3\">Multiple response</option></select></div>";
 					//String fillInTheBlanks="<option value=\"4\">Fill in the blank</option></select></div>";
 					String positiveMarks="<div class=\"rhs\"><label style>Positive Marks:</label><input id=\"pmarks\" name=\"pmarks\" size=\"3\" type=\"number\" minimun=\"0\" step=\"0.01\" value=\"1\"></div><br><br>";
-					String negativeMarks="<div class=\"rhs\"><label style>Negative Marks:</label><input id=\"nmarks\" name=\"nmarks\" size=\"3\" type=\"number\" minimun=\"0\" step=\"0.01\" value=\"0\"></div><br><br><br>";
+					String negativeMarks="<div class=\"rhs\"><label style>Negative Marks:</label><input id=\"nmarks\" name=\"nmarks\" size=\"3\" type=\"number\" minimun=\"0\" step=\"0.01\" value=\"0\"></div><br><br>";
+					String timeLimit = "";
+					if(timeLimitType.equals("1"))
+					{
+						timeLimit="<div class=\"rhs\"><label style>Time Limit (in seconds):</label><input id=\"timeLimit\" name=\"timeLimit\" size=\"3\" type=\"number\" minimun=\"0\" value=\"0\"></div><br><br><br>";
+					}
+					else
+					{
+					 timeLimit = "<br>";
+					}
+					
 					
 					String label="<label>Enter the options, and mark which answer is correct</label><br>";
 					String TandFdiv = "<br><div id=\"TandF\" style=\"display:none;\">";
@@ -132,27 +155,39 @@ public class CreateQuestions extends HttpServlet{
 					else if((int)questionNumber == noq)
 					{
 						if((int)questionNumber == 1)
-							out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+button1+button3+html2);
+							out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+timeLimit+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+button1+button3+html2);
 						else
-							out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+previousButton+button1+button3+html2);
+							out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+timeLimit+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+previousButton+button1+button3+html2);
 					}	
 					else
 					{
 						if((int)questionNumber == 1)
-							out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+button1+button2+html2);
+							out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+timeLimit+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+button1+button2+html2);
 						else
-							out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+previousButton+button1+button2+html2);
+							out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+timeLimit+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+previousButton+button1+button2+html2);
 					}
 				}
 				else
 				{
+					String sss = "<script src=\"http://js.nicedit.com/nicEdit-latest.js\" type=\"text/javascript\"></script><script type=\"text/javascript\">\r\n" + 
+							"//<![CDATA[\r\n" + 
+							"bkLib.onDomLoaded(function() {\r\n" + 
+							"    nicEditors.editors.push(\r\n" + 
+							"        new nicEditor().panelInstance(\r\n" + 
+							"            document.getElementById('question')\r\n" + 
+							"        )\r\n" + 
+							"    );\r\n" + 
+							"});\r\n" + 
+							"//]]>\r\n" + 
+							"</script>";
+					
 					String html1="<html>\r\n" + 
 							"	<head>\r\n" + 
 							"		<meta charset=\"ISO-8859-1\">\r\n" + 
 							"		<title>Create a test</title>\r\n" + 
 							"		<link rel=\"stylesheet\" href=\"questions.css\">\r\n" + 
 							"<script src=\"addRemoveOptions.js\"></script>"+
-							"<script src=\"changeQType.js\"></script>"+
+							"<script src=\"changeQType.js\"></script>"+sss+
 							"	</head>\r\n" + 
 							"<body>";
 					String tid="<input type=\"hidden\" id=\"tid\" name=\"tid\" style=\"display:none;\" value=\""+testID+"\">";
@@ -177,7 +212,17 @@ public class CreateQuestions extends HttpServlet{
 					}
 					//String fillInTheBlanks="<option value=\"4\">Fill in the blank</option></select></div>";
 					String positiveMarks="<div class=\"rhs\"><label style>Positive Marks:</label><input id=\"pmarks\" name=\"pmarks\" size=\"3\" type=\"number\" minimun=\"0\" step=\"0.01\" value=\""+pMarks+"\"></div><br><br>";
-					String negativeMarks="<div class=\"rhs\"><label style>Negative Marks:</label><input id=\"nmarks\" name=\"nmarks\" size=\"3\" type=\"number\" minimun=\"0\" step=\"0.01\" value=\""+nMarks+"\"></div><br><br><br>";
+					String negativeMarks="<div class=\"rhs\"><label style>Negative Marks:</label><input id=\"nmarks\" name=\"nmarks\" size=\"3\" type=\"number\" minimun=\"0\" step=\"0.01\" value=\""+nMarks+"\"></div><br><br>";
+					
+					String timeLimit = "";
+					if(timeLimitType.equals("1"))
+					{
+						timeLimit="<div class=\"rhs\"><label style>Time Limit (in seconds):</label><input id=\"timeLimit\" name=\"timeLimit\" size=\"3\" type=\"number\" minimun=\"0\" value=\"0\"></div><br><br><br>";
+					}
+					else
+					{
+						timeLimit = "<br>";
+					}
 					
 					String label="<label>Enter the options, and mark which answer is correct</label><br>";
 					//String TandFdiv = "<br><div id=\"TandF\" style=\"display:none;\">";
@@ -322,9 +367,9 @@ public class CreateQuestions extends HttpServlet{
 					if((int)questionNumber > noq)
 						out.println("Test created");
 					else if((int)questionNumber == noq)
-						out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+previousButton+button1+button3+html2);
+						out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+timeLimit+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+previousButton+button1+button3+html2);
 					else
-						out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+previousButton+button1+button2+html2);
+						out.println(html1+block+form+tid+qno+noq1+textArea+dropdown+positiveMarks+negativeMarks+timeLimit+label+TandFdiv+TandFoptions+closeTandFdiv+optionDiv+options+closeDiv+MAQDiv+MAQOptions+closeMAQDiv+p+linkDiv+addOption+slash+removeOption+linkDivClose+previousButton+button1+button2+html2);
 					
 				}
 	

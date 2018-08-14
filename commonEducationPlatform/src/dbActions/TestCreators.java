@@ -52,14 +52,63 @@ public class TestCreators {
 		return status;
 	}
 	
-	public boolean insertQuestionDetails(String qtext, String qTypeID, String pMarks, String nMarks, String option1,String option2,String option3,String option4,String option5,String option6,String TestID, String answer)
+	public boolean insertTestDetailsNew(String testName, String subjectName, String testType, String noq, String totalMarks, String totalTime, String username, String isCompleted, String isShared, String createdBy, String timeLimitType, String splitTest, int noOfSections)
 	{
 		Statement ps;
 		boolean status=false;
 		Connection con=connectToDB();
 		try {
 			ps = con.createStatement();
-			String sql="insert into questions (QuestionText,QuestionTypeID,PositiveMarks,NegativeMarks,Option1,Option2,Option3,Option4,Option5,Option6,TestID,Answer) values (\""+qtext+"\",\""+qTypeID+"\",\""+pMarks+"\",\""+nMarks+"\",\""+option1+"\",\""+option2+"\",\""+option3+"\",\""+option4+"\""+",\""+option5+"\",\""+option6+"\",\""+TestID+"\",\""+answer+"\")";
+			System.out.println("#################TOTAL TIME##########"+totalTime);
+			String sql = "";
+			if(noq.equals(""))
+			{
+				sql="insert into Tests2 (TestName,SubjectName,TestType,NumberOfQuestions,TotalMarks,TotalTime,Owner,IsCompleted,IsShared,CreatedBy,TimeLimitType,SplitTestIntoSections,NoOfSections) values (\""+testName+"\",\""+subjectName+"\",\""+testType+"\","+null+",\""+totalMarks+"\",\""+totalTime+"\",\""+username+"\",\""+isCompleted+"\",\""+isShared+"\",\""+createdBy+"\",\""+timeLimitType+"\",\""+splitTest+"\",\""+noOfSections+"\")";
+			}
+			else
+			{
+				sql="insert into Tests2 (TestName,SubjectName,TestType,NumberOfQuestions,TotalMarks,TotalTime,Owner,IsCompleted,IsShared,CreatedBy,TimeLimitType,SplitTestIntoSections,NoOfSections) values (\""+testName+"\",\""+subjectName+"\",\""+testType+"\",\""+noq+"\",\""+totalMarks+"\",\""+totalTime+"\",\""+username+"\",\""+isCompleted+"\",\""+isShared+"\",\""+createdBy+"\",\""+timeLimitType+"\",\""+splitTest+"\",\""+noOfSections+"\")";
+			}
+			
+			System.out.println(sql);
+			ps.executeUpdate(sql);
+			status=true;
+		} catch (SQLException ex) 
+		{
+			ex.printStackTrace();
+		}
+		destroyConnection(con);
+		return status;
+	}
+
+	public boolean insertSectionQuestions(String commaSeperatedListOfQuestions, int testID)
+	{
+		Statement ps;
+		boolean status=false;
+		Connection con=connectToDB();
+		try {
+			ps = con.createStatement();
+			
+			String sql="update Tests2 set QuestionsInSections = \""+ commaSeperatedListOfQuestions +"\" where ID=" + testID;
+			System.out.println(sql);
+			ps.executeUpdate(sql);
+			status=true;
+		} catch (SQLException ex) 
+		{
+			ex.printStackTrace();
+		}
+		destroyConnection(con);
+		return status;
+	}
+	
+	public boolean insertQuestionDetails(String qtext, String qTypeID, String pMarks, String nMarks, String option1,String option2,String option3,String option4,String option5,String option6,String TestID, String answer, String timeLimit)
+	{
+		Statement ps;
+		boolean status=false;
+		Connection con=connectToDB();
+		try {
+			ps = con.createStatement();
+			String sql="insert into questions (QuestionText,QuestionTypeID,PositiveMarks,NegativeMarks,Option1,Option2,Option3,Option4,Option5,Option6,TestID,Answer,TimeLimitInSeconds) values ('"+qtext+"',\""+qTypeID+"\",\""+pMarks+"\",\""+nMarks+"\",\""+option1+"\",\""+option2+"\",\""+option3+"\",\""+option4+"\""+",\""+option5+"\",\""+option6+"\",\""+TestID+"\",\""+answer+"\",\""+timeLimit+"\")";
 			System.out.println(sql);
 			ps.executeUpdate(sql);
 			status=true;
@@ -77,14 +126,15 @@ public class TestCreators {
 		int testID=0;
 		Connection con=connectToDB();
 		try{ 
-			//Connection con=connectToDB();
-			PreparedStatement ps=con.prepareStatement("select ID from tests where TestName=? and SubjectName=? and TestType=? and NumberOfQuestions=? and TotalMarks=? and TotalTime=?");
+			//Updated on 7th July.
+			//PreparedStatement ps=con.prepareStatement("select ID from tests where TestName=? and SubjectName=? and TestType=? and NumberOfQuestions=? and TotalMarks=? and TotalTime=?");
+			PreparedStatement ps=con.prepareStatement("select ID from tests2 where TestName=? and SubjectName=? and TestType=? and TotalMarks=?");
 			ps.setString(1, testName);
 			ps.setString(2, subjectName);
 			ps.setString(3, testType);
-			ps.setString(4, noq);
-			ps.setString(5, totalMarks);
-			ps.setString(6, totalTime);
+			//ps.setString(4, noq);
+			ps.setString(4, totalMarks);
+			//ps.setString(6, totalTime);
 			ResultSet rs=ps.executeQuery(); 
 			rs.next();
 			testID=rs.getInt(1);
@@ -480,6 +530,25 @@ public class TestCreators {
 		return text;	
 	}
 	
+	public String getTimeLimitType(String testID)
+	{
+		PreparedStatement ps;
+		String text=null;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select TimeLimitType from tests2 where ID=?");
+			ps.setString(1, testID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getString("TimeLimitType");
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+	
 	public String getTypeOfQuestion(String questionID)
 	{
 		PreparedStatement ps;
@@ -575,16 +644,16 @@ public class TestCreators {
 		return text;	
 	}
 	
-	public boolean isQuestionUpdated(String questionID, String cQuestionText, String cQuestionType, String cPMarks, String cNMarks, String cO1, String cO2, String cO3, String cO4, String cO5, String cO6, String cAnswer)
+	public boolean isQuestionUpdated(String questionID, String cQuestionText, String cQuestionType, String cPMarks, String cNMarks, String cO1, String cO2, String cO3, String cO4, String cO5, String cO6, String cAnswer, String timeLimit)
 	{
 		PreparedStatement ps;
 		String qText=null;
-		String qType,pmarks,nmarks,o1,o2,o3,o4,o5,o6,answer;
+		String qType,pmarks,nmarks,o1,o2,o3,o4,o5,o6,answer,tLimit;
 		Connection con=connectToDB();
 		int isUpdated=0;
 		int n=getNumberOfOptionsInAQuestion(questionID);
 		try {			
-			ps = con.prepareStatement("select QuestionText,QuestionTypeID,PositiveMarks,NegativeMarks,Option1,Option2,Option3,Option4,Option5,Option6,Answer from questions where ID=?");
+			ps = con.prepareStatement("select QuestionText,QuestionTypeID,PositiveMarks,NegativeMarks,Option1,Option2,Option3,Option4,Option5,Option6,Answer,TimeLimitInSeconds from questions where ID=?");
 			ps.setString(1, questionID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -599,6 +668,7 @@ public class TestCreators {
 			o5 = rs.getString("Option5");
 			o6 = rs.getString("Option6");
 			answer = rs.getString("Answer");
+			tLimit = rs.getString(timeLimit);
 			
 			/*
 			 * Code to find out number of options entered by the user.
@@ -685,6 +755,12 @@ public class TestCreators {
 				isUpdated=1;
 				return true;
 			}
+			if(!timeLimit.equals(tLimit))
+			{
+				isUpdated=1;
+				return true;
+			}
+			
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
