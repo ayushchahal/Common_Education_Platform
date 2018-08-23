@@ -1,5 +1,9 @@
 package dynamicResponses;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Misc {
 
 	public String getRandomQuestionID(String[] questionIDs)
@@ -15,6 +19,20 @@ public class Misc {
 		
 		String header = cardStart+cardHeader;
 		return header;
+	}
+	
+	public void recordRemainingTime(String dateTime)
+	{
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = null;
+		try {
+			date = df.parse(dateTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long epoch = date.getTime();
+		
+		
 	}
 	
 

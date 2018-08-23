@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TestCreators {
 
@@ -127,7 +129,7 @@ public class TestCreators {
 		Connection con=connectToDB();
 		try{ 
 			//Updated on 7th July.
-			//PreparedStatement ps=con.prepareStatement("select ID from tests where TestName=? and SubjectName=? and TestType=? and NumberOfQuestions=? and TotalMarks=? and TotalTime=?");
+			//PreparedStatement ps=con.prepareStatement("select ID from tests2 where TestName=? and SubjectName=? and TestType=? and NumberOfQuestions=? and TotalMarks=? and TotalTime=?");
 			PreparedStatement ps=con.prepareStatement("select ID from tests2 where TestName=? and SubjectName=? and TestType=? and TotalMarks=?");
 			ps.setString(1, testName);
 			ps.setString(2, subjectName);
@@ -226,7 +228,7 @@ public class TestCreators {
 		String htmlTable[]= new String[n];
 		Connection con=connectToDB();
 		try {
-			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests where Owner = ?");
+			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests2 where Owner = ?");
 			ps.setString(1, coachingID);
 			ResultSet rs = ps.executeQuery();
 			int i=0;
@@ -282,7 +284,7 @@ public class TestCreators {
 		String htmlTable[]= new String[n];
 		Connection con=connectToDB();
 		try {
-			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests where CreatedBy=?");
+			PreparedStatement ps=con.prepareStatement("select Id, TestName, SubjectName, TestType, NumberOfQuestions, TotalMarks, TotalTime, Owner, IsCompleted, IsShared, PublicDateTime from tests2 where CreatedBy=?");
 			ps.setString(1, teacherID);
 			ResultSet rs = ps.executeQuery();
 			int i=0;
@@ -354,7 +356,7 @@ public class TestCreators {
 		int count=0;
 		Connection con=connectToDB();
 		try {			
-			ps = con.prepareStatement("select Count(ID) from tests where Owner=?");
+			ps = con.prepareStatement("select Count(ID) from tests2 where Owner=?");
 			ps.setString(1, coachingID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -374,7 +376,7 @@ public class TestCreators {
 		int count=0;
 		Connection con=connectToDB();
 		try {			
-			ps = con.prepareStatement("select Count(ID) from tests where CreatedBy=?");
+			ps = con.prepareStatement("select Count(ID) from tests2 where CreatedBy=?");
 			ps.setString(1, teacherID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -454,7 +456,7 @@ public class TestCreators {
 		int count=0;
 		Connection con=connectToDB();
 		try {			
-			ps = con.prepareStatement("select NumberOfQuestions from tests where ID=?");
+			ps = con.prepareStatement("select NumberOfQuestions from tests2 where ID=?");
 			ps.setString(1, testID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -612,7 +614,7 @@ public class TestCreators {
 		int text=0;
 		Connection con=connectToDB();
 		try {			
-			ps = con.prepareStatement("select TotalTime from tests where ID=?");
+			ps = con.prepareStatement("select TotalTime from tests2 where ID=?");
 			ps.setString(1, testID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -668,7 +670,7 @@ public class TestCreators {
 			o5 = rs.getString("Option5");
 			o6 = rs.getString("Option6");
 			answer = rs.getString("Answer");
-			tLimit = rs.getString(timeLimit);
+			tLimit = rs.getString("TimeLimitInSeconds");
 			
 			/*
 			 * Code to find out number of options entered by the user.
@@ -836,7 +838,7 @@ public class TestCreators {
 		int n=0;
 		Connection con=connectToDB();
 		try {			
-			ps = con.prepareStatement("select NumberOfQuestions from tests where ID=?");
+			ps = con.prepareStatement("select NumberOfQuestions from tests2 where ID=?");
 			ps.setString(1, testID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -868,13 +870,13 @@ public class TestCreators {
 		return n;	
 	}
 	
-	public void recordAnswer(String studentID, String questionID, String answer)
+	public void recordAnswer(String studentID, String questionID, String answer, String testID)
 	{
 		Statement ps;
 		Connection con=connectToDB();
 		try {
 			ps = con.createStatement();
-			String sql="insert into AnswerSheet (StudentID,QuestionID,Answer,CreateDateTime) values (\""+studentID+"\",\""+questionID+"\", "+answer+" , CURRENT_TIMESTAMP())";
+			String sql="insert into AnswerSheet (StudentID,QuestionID,Answer,CreateDateTime,testID) values (\""+studentID+"\",\""+questionID+"\", "+answer+" , CURRENT_TIMESTAMP()"+",\""+testID+"\")";
 			System.out.println(sql);
 			ps.executeUpdate(sql);
 			
@@ -1104,7 +1106,8 @@ public class TestCreators {
 			
 		} catch (SQLException e) 
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("No matching data found in database.");
 		}
 		destroyConnection(con);
 		
@@ -1134,4 +1137,249 @@ public class TestCreators {
 		return total;
 		
 	}
+
+	public String insertFirstVisitedTime(String studentID, String questionID, String testID,int timeLimitType)
+	{
+		Statement ps;
+		String dateTime = "";
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+	    Date date = new Date();  
+	    dateTime = formatter.format(date);  
+		Connection con=connectToDB();
+		System.out.println("@@@@@@@@@@"+ checkIfFirstVisitedAlreadyExist(studentID, questionID));
+		if(!(checkIfFirstVisitedAlreadyExist(studentID, questionID)))
+		{
+			try {
+				ps = con.createStatement();
+				String sql="insert into studentworkspace (StudentID,QuestionID,FirstVisitedDateTime) values (\""+studentID+"\",\""+questionID+"\",\""+dateTime+"\")";
+				System.out.println(sql);
+				ps.executeUpdate(sql);
+				
+			} catch (SQLException ex) 
+			{
+					ex.printStackTrace();
+			}
+		}
+		else
+		{
+			dateTime = getFirstVisitedDateTime(studentID, questionID);
+		}
+		destroyConnection(con);
+		return dateTime;
+	}
+
+	public boolean checkIfFirstVisitedAlreadyExist(String studentID, String questionID)
+	{
+		PreparedStatement ps;
+		int total=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(1) from studentworkspace where StudentID = ? and QuestionID = ?");
+			ps.setString(1, studentID);
+			ps.setString(2, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			total=rs.getInt(1);
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		
+		if(total > 0)
+			return true;
+		else
+			return false;
+		
+	}
+
+	public String getFirstVisitedDateTime(String studentID, String questionID)
+	{
+		PreparedStatement ps;
+		String total="";
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select FirstVisitedDateTime from studentworkspace where StudentID = ? and QuestionID = ?");
+			ps.setString(1, studentID);
+			ps.setString(2, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			total=rs.getString(1);
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return total;
+	}
+
+	public String getTestTimeLimitType(String testID)
+	{
+		PreparedStatement ps;
+		int type=0;
+		String text="";
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select TimeLimitType from tests2 where ID=?");
+			ps.setString(1, testID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			type = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		if(type == 1)
+			return "On each question";
+		else
+			return "Entire test";
+			
+	}
+
+	public int getQuestionTime(String questionID)
+	{
+		PreparedStatement ps;
+		int text=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select TimeLimitInSeconds from questions where ID=?");
+			ps.setString(1, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getInt(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+
+	public String getTestStartTime(String studentID, String testID)
+	{
+		PreparedStatement ps;
+		String text="";
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select StartTimeStamp from studenttestassociation where StudentID=? and TestID=?");
+			ps.setString(1, studentID);
+			ps.setString(2, testID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			text = rs.getString(1);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return text;	
+	}
+
+	public boolean isQuestionAlreadyVisited(String studentID, String questionID)
+	{
+		PreparedStatement ps;
+		int total=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(1) from answersheet where StudentID = ? and QuestionID = ?");
+			ps.setString(1, studentID);
+			ps.setString(2, questionID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			total=rs.getInt(1);
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		
+		if(total > 0)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean areAllQuestionsAnswered(String testID, String studentID, int numberOfQuestions)
+	{
+		PreparedStatement ps;
+		int total=0;
+		Connection con=connectToDB();
+		try {			
+			ps = con.prepareStatement("select Count(1) from answersheet where StudentID = ? and TestID = ?");
+			ps.setString(1, studentID);
+			ps.setString(2, testID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			total=rs.getInt(1);
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		
+		if(total == numberOfQuestions)
+			return true;
+		else
+			return false;
+	}
+	
+	public String[] returnUnansweredQuestionIDs(String testID, String studentID)
+	{
+		PreparedStatement ps;
+		int total=0;
+		Connection con=connectToDB();
+		String[] qIDs = getQuestionIDs(testID);
+		String[] a = new String[qIDs.length]; 
+		try {
+			for(int i=0;i<qIDs.length;i++)
+			{
+				ps = con.prepareStatement("select Count(1) from answersheet where StudentID = ? and QuestionID = ?");
+				ps.setString(1, studentID);
+				ps.setString(2, qIDs[i]);
+				ResultSet rs = ps.executeQuery();
+				rs.next();
+				total=rs.getInt(1);
+				
+				if(total == 0)
+					a[i] = qIDs[i];
+			}	
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		destroyConnection(con);
+		return a;
+	}
+	
+	public void insertNullValuesForUnansweredQuestions(String[] uaq, String studentID, String testID)
+	{
+		Statement ps;
+		Connection con=connectToDB();
+		try {
+			ps = con.createStatement();
+			
+			for(int i=0;i<uaq.length;i++)
+			{
+				if(uaq[i]!=null)
+				{
+					String sql="insert into answersheet (StudentID,QuestionID,TestID) values (\""+studentID+"\",\""+uaq[i]+"\",\""+testID+"\")";
+					System.out.println(sql);
+					ps.executeUpdate(sql);
+				}
+			}
+			
+		} catch (SQLException ex) 
+		{
+				ex.printStackTrace();
+		}
+		destroyConnection(con);
+	}
+	
 }
+
+
