@@ -68,7 +68,6 @@ public class MyTests extends HttpServlet{
 				
 				out.println("<table class=\"table table-striped table-bordered\">");
 				
-				TestCreators tc = new TestCreators();
 				String tableheaders = "<tr><th>S No.</th><th>Test Name</th><th>Subject Name</th><th>Number of Questions</th><th>Total Marks</th><th>Total Time</th><th>Action</th></tr>";
 				TestAndCoachingAssoc taca = new TestAndCoachingAssoc();
 				String[] htmlTable = taca.getMyTestDetails(studentID);
