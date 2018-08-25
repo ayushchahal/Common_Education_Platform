@@ -1,0 +1,72 @@
+<html>
+	<head>	
+		<meta charset="ISO-8859-1">	
+		<title>Add Student</title>	
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	    
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">		
+	    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">	
+   </head>
+    <body>
+    	<div class="card border-0">	
+    		<div class="card-header" style="background-color:#eaeced;">		
+    			<h5>Test Plant
+    				<form action="/Logout" method="post">
+    					<input name="Submit" type="submit" value="Logout" id="Logout" class="btn btn-secondary float-right">		
+    				</form>
+    			</h5>
+    		</div>
+    	</div>
+    	
+    	<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/CoachingDashboard">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add Student</li>
+  </ol>
+</nav>
+
+<br>
+<div class="card border-secondary" style="margin-left:5%;width:70%;"> 
+    <div class="card-header bg-dark text-white">
+        <h5>Add a Student</h5>
+    </div>
+    
+    <div class="card-body">
+       <form action="/AddStudent1" method="post">  
+    <div class="input-group input-group-default">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroup-sizing-lg">Student Name</span>
+  </div>
+  <input type="text" class="form-control" aria-label="Large" name="studentName" aria-describedby="inputGroup-sizing-sm" placeholder="Enter student's name">
+</div>
+<br>
+<div class="input-group input-group-default">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroup-sizing-lg">Contact Number</span>
+  </div>
+  <input type="text" class="form-control" aria-label="Large" name="cno1" aria-describedby="inputGroup-sizing-sm" placeholder="Enter student's phone number">
+</div>
+    
+    
+    
+    <br>
+    <div class="input-group input-group-default">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroup-sizing-lg">Email Address</span>
+  </div>
+  <input type="text" class="form-control" aria-label="Large" name="email" aria-describedby="inputGroup-sizing-sm" placeholder="Enter student's email address">
+</div>
+
+<br>
+    <div class="input-group input-group-default">
+  
+  <input type="submit" class="btn btn-dark" value="Submit details">
+</div>
+
+    
+    
+    
+            </form>
+    </div>
+    
+    </div> </body></html>
