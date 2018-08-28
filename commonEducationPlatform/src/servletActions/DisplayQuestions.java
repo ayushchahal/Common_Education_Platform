@@ -106,6 +106,8 @@ public class DisplayQuestions extends HttpServlet{
 				int totalTimeInSeconds = 0;
 				totalTimeInSeconds = tc.getQuestionTime(questionID);
 				String hiddenDateTime = "<input type=\"hidden\" name=\"timerD\" id=\"timer1\" value=\""+0+"\">";
+				String previousButton = "<input class=\"btn btn-primary float-left\" type=\"submit\" name=\"save\" id=\"prev\" value=\"To Previous Question\" style=\"margin-left:2%\">";
+				
 				
 				if(timeLimitType == 1)
 				{
@@ -118,6 +120,8 @@ public class DisplayQuestions extends HttpServlet{
 					System.out.println("##############EPOCH TIME IS: "+epoch);
 					
 					hiddenDateTime = "<input type=\"hidden\" name=\"timerD\" id=\"timer1\" value=\""+epoch+"\">";
+					previousButton = "";
+					
 				}
 				else if(timeLimitType == 2)
 				{
@@ -211,8 +215,8 @@ public class DisplayQuestions extends HttpServlet{
 						"    <div class=\"col-lg-3\">\r\n" + 
 						"    \r\n" + 
 						"<label></label>"+
-						"    <h3 style=\"margin-right:2%;\">    \r\n" + 
-						"	<span class=\"badge badge-info\">Time left = <span id=\"timeleft1\"></span></span>\r\n" + 
+						"    <h3 style=\"margin-right:2%; position: fixed ; z-index: 1;\">    \r\n" + 
+						"	<span class=\"badge badge-info\" id=\"badge\">Time left = <span id=\"timeleft1\"></span></span>\r\n" + 
 						"    </h3>\r\n" + 
 						"    </div>\r\n" + 
 						"</div>";
@@ -235,10 +239,9 @@ public class DisplayQuestions extends HttpServlet{
 				String questionCard="<div class=\"card border-transparent\" style=\"margin-left:2%;margin-right:2%;\">";
 				String questionNumberlabel = "<h6 class=\"card-header\">Question "+questionNumber+" of "+numberOfQuestions+"</h6>";
 				String questionTextLabel = "<div class=\"card-body\"><p class=\"card-text\">"+questionText+"</p></div>";
-				String positiveMarksLabel = "<footer class=\"card-footer text-right text-muted\"><small class=\"text-muted\">Correct answer: +"+positiveMarks+"<br> Incorrect answer: "+negativeMarks+"</small></footer></div>";
+				String positiveMarksLabel = "<footer class=\"card-footer text-right text-muted\"><small class=\"text-muted\">Correct answer: +"+positiveMarks+"<br> Incorrect answer: -"+negativeMarks+"</small></footer></div>";
 				//String negativeMarksLabel = "<label> Incorrect answer: -"+negativeMarks+"</label>";
 				//String previousButton = "<input class=\"lhs\" type=\"submit\" name=\"save\" value=\"To Previous Question\">";
-				String previousButton = "<input class=\"btn btn-primary float-left\" type=\"submit\" name=\"save\" id=\"prev\" value=\"To Previous Question\" style=\"margin-left:2%\">";
 				//String nextButton="<input class=\"rhs\" type=\"submit\" name=\"save\" value=\"To Next Question\">";
 				String nextButton="<input class=\"btn btn-primary float-right\" type=\"submit\" name=\"save\" id=\"next\" value=\"To Next Question\" style=\"margin-right:2%\">";
 				//String submit="<input class=\"rhs\" type=\"submit\" name=\"save\" value=\"Submit test\">";

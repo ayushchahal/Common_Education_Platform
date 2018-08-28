@@ -51,10 +51,21 @@ public class TestCompletionReport extends HttpServlet{
 				for(int i=0;i<n;i++)
 				{
 					String answer = tc.getStudentAnswer(A[i][0],studentID);
-					if(A[i][1].equals(answer))
-						score = score+Integer.parseInt(A[i][2]);
-					else
-						score = score-Integer.parseInt(A[i][3]);
+					System.out.println("Teacher's answer is: "+A[i][1]);
+					System.out.println("Student's answer is: "+answer);
+					if(answer != null)
+					{
+						if(A[i][1].equals(answer))
+						{
+							score = score+Integer.parseInt(A[i][2]);
+						}
+						else
+						{
+							score = score-Integer.parseInt(A[i][3]);
+						}
+					}
+					
+						
 					/*
 					if(answer.equals(A[i][1]))
 						score = score+Integer.parseInt(A[i][2]);
