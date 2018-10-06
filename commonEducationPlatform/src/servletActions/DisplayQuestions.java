@@ -345,7 +345,7 @@ public class DisplayQuestions extends HttpServlet{
 				
 				for(int i=0;i<numberOfQuestions;i++)
 				{
-					questionsInPallete = questionsInPallete + "<input class=\"btn btn-basic\" type=\"submit\" name=\""+questionIDs[i]+"\" id=\""+questionIDs[i]+"\" value=\""+(i+1)+"\" style=\"margin-right:4%; margin-top: 2%;\" >";
+					questionsInPallete = questionsInPallete + "<input class=\"btn btn-basic\" type=\"submit\" name=\"pallete\" id=\""+questionIDs[i]+"\" value=\""+(i+1)+"\" style=\"margin-right:4%; margin-top: 2%;\" >";
 				}
 				
 				String closePalleteDiv = "</div>";
