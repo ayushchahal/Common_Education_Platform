@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+	<title> LOGIN </title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../stylesheets/style.css">
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script> 
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<!--Icons-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+	<!--Fonts-->
+	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
+	<script src="../javascript/loginScript.js"></script>
+</head>
+<body>
+	<nav class="nav-extended">
+		<div class="nav-wrapper logo-nav-optimize">
+			<img src="../images/logo.png" class="responsive-img logo-img" />
+			<div class="right header-text">We Believe in Redefining Education</div>
+		</div>
+		<div class="nav-wrapper">
+			<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+			<ul class="tabs tabs-transparent right hide-on-med-and-down">
+				<li class="tab"><a href="#home">Home</a></li>
+				<li class="tab"><a class="active" href="#aboutCoaching">About Coaching</a></li>
+				<li class="tab"><a href="#aboutPortal">About Test Portal</a></li>
+				<li class="tab"><a href="#contact">Contact Us</a></li>
+			</ul>
+			<ul class="side-nav" id="mobile-demo">
+				<li class="tab"><a href="#home">Home</a></li>
+				<li class="tab"><a class="active" href="#aboutCoaching">About Coaching</a></li>
+				<li class="tab"><a href="#aboutPortal">About Test Portal</a></li>
+				<li class="tab"><a href="#contact">Contact Us</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="row">
+
+		<div class="col s4" style="text-align: justify;">
+			<h4>Toppers</h4>
+			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+		</div>
+		<div class="col s4" style="text-align: justify;">
+			<h4>Upcoming tests</h4>
+			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+		</div>
+		<div class="col s4">
+			<div>
+				<div class="row">
+					<form id="loginForm" action="/LoginServlet1" class="col s12" method="POST" onsubmit="return validateForm()">
+						<div class="card pink lighten-5">
+							<div class="card-content white-text">
+								<span class="card-title black-text center portal-text">Login</span>
+								<div class="row">
+									<div class="input-field col s12">
+										<input id="loginid" type="text" class="validate black-text" name="username" onfocusout="validateLoginid();">
+										<label for="loginid">Login ID</label>
+										<span id="errLoginid" style="display: none; color:red;">* Required</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										<input id="password" type="password" class="validate black-text" name="password" onfocusout="validatePassword();">
+										<label for="password">Password</label>
+										<span id="errPassword" style="display: none; color:red;">* Required</span>
+									</div>
+								</div>
+							</div>
+							<div class="card-action">
+								<button id="btnSubmit" class="waves-effect waves-light btn red center" style="width:100%;">Login</button>
+								<!-- <input type="submit" id="btnSubmit" class="waves-effect waves-light btn red center" style="width: 100%;" text="Login" /> -->
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div id="test1" class="col s12">Test 1</div>
+		<div id="test2" class="col s12">Test 2</div>
+		<div id="test3" class="col s12">Test 3</div>
+		<div id="test4" class="col s12">Test 4</div>
+
+<!-- 		<script>
+		$( document ).ready(function(){
+			$('.button-collapse').sideNav({
+				closeOnClick: true
+			}
+			);
+		});
+	</script>
+	 -->	
+	</body>	

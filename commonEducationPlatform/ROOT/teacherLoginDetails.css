@@ -1,0 +1,9 @@
+@charset "ISO-8859-1";
+body {
+  margin: auto;
+  background: #eaeaea;  
+  font-family: 'Open Sans', sans-serif;
+  float: center;
+  text-align: center;
+  margin: auto;
+}
