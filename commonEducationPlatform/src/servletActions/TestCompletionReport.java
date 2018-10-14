@@ -37,6 +37,12 @@ public class TestCompletionReport extends HttpServlet{
 				String studentID = (String) request.getAttribute("studentID");
 				String testID = (String) request.getAttribute("testID");
 				
+				if(studentID == null && testID == null)
+				{
+					studentID = request.getParameter("studentID");
+					testID = request.getParameter("testID");
+				}
+				
 				//Get QuestionID and Answer using TestID and store them in a data structure A.
 				//Using studentID and QuestionID (retrieve questionID from A) from AnswerSheet get Answers and compare them with answers in A.
 				TestCreators tc = new TestCreators();
@@ -45,9 +51,13 @@ public class TestCompletionReport extends HttpServlet{
 				String[][] A = new String[n][4];
 				A = tc.getCoachingAnswers(testID);
 				
-				int score = 0;
-				
-				int total = tc.getTotalMarks(testID);
+				int rank = 0;
+				int totalStudents = 0;
+				double score = 0.0;
+				double averageScore = 0.0;
+				double highestScore = 0.0;
+				double lowestScore = 0.0;
+				int averageRank = 0;
 				
 				for(int i=0;i<n;i++)
 				{
@@ -76,6 +86,34 @@ public class TestCompletionReport extends HttpServlet{
 					
 				}
 				
+				tc.insertScore(studentID, testID, score);
+				
+				//float[] sortedScores = tc.getScoreInTestByDesc(testID, totalStudents);
+				double total = tc.getTotalMarks(testID);
+				averageScore = tc.getAverageScoreOfATest(testID);
+				highestScore = tc.getHighestScoreInATest(testID);
+				lowestScore = tc.getLowestScoreInATest(testID);
+				totalStudents = tc.getNumberOfStudentsInATest(testID);
+				
+				int totalAttempts = 0;
+				int successfulAttempts = 0;
+				
+				double[] successfulAttemptsArray = new double[n];
+				
+				for(int i = 0; i< n; i++)
+				{
+					totalAttempts = tc.getTotalAttemptsOfAQuestion(A[i][0]);
+					System.out.println("Total attempts for question no "+ (i+1) + " are: "+totalAttempts);
+					successfulAttempts = tc.getSuccessfulAttemptsOfQuestion(A[i][0]);
+					System.out.println("Successful attempts for question no "+ (i+1) + " are: "+successfulAttempts);
+					
+					double successfulPercentage = (successfulAttempts*100)/totalAttempts;
+					
+					successfulAttemptsArray[i] = successfulPercentage; 
+					System.out.println("Percentage for Question no "+ (i+1)+" are: "+successfulAttemptsArray[i]);
+				}
+				
+				
 				String htmlHeaders = new Misc().HtmlHeader();
 				String navigationBar = "<div class=\"card-body\"><nav aria-label=\"breadcrumb\">\r\n" + 
 						"  <ol class=\"breadcrumb\">\r\n" + 
@@ -85,12 +123,14 @@ public class TestCompletionReport extends HttpServlet{
 						"  </ol>\r\n" + 
 						"</nav>";
 				
-				out.println("<html><head><title>Test successful</title>");
+				out.println("<html><head><title>Test Report</title>");
 				out.println("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\">");
-				out.println("<head>");
+				
+				out.println("</head>");
+				
+				out.println("<body>");
 				out.println(htmlHeaders);
 				out.println("</div>");
-				out.println("<body>");
 				out.println(navigationBar);
 				
 				
@@ -115,7 +155,7 @@ public class TestCompletionReport extends HttpServlet{
 				String scoreCard1 = "SCORE <br> <b>" + score + "</b><br> out of "+total;
 				String closeCol1 = "</div>";
 				String col2 = "<div class=\"col-sm-6 text-center\" style=\"alignment:centre\">";
-				String rank1 = "RANK <br> <b>" + score + "</b><br> out of "+ total;
+				String rank1 = "RANK <br> <b>" + rank + "</b><br> out of "+ totalStudents;
 				String closeCol2 = "</div>";
 				String closeRow = "</div>";
 				String closeContainer = "</div>";
@@ -132,7 +172,7 @@ public class TestCompletionReport extends HttpServlet{
 				
 				//out.println(scoreArea+scoreHeader+scoreBody+scoreCard+totalMarks+totalQuestions+correctAnswers+incorrectAnswers+notAnswered+br+rank+averageScore+highestScore+lowesetScore+closeScoreBodyAndArea);
 				
-				String form = "<form action=\"/ViewSolutions\"";
+				String form = "<form action=\"/ViewSolutions\">";
 				String questionAnalysisCardBorder = "<div class=\"card border-secondary\" style=\"margin:0 auto;float: none;width:50%;\">";
 				String questionAnalysisCardHeader = "<div class=\"card-header bg-dark text-white\"><h5>Question Analysis</h5></div>";
 				String questionAnalysisCardBody = "<div class=\"card-body\">";
@@ -187,11 +227,22 @@ public class TestCompletionReport extends HttpServlet{
 				
 				String closequestionAnalysisCardBody = "</div>";
 				String closequestionAnalysisCardBorder = "</div>";
+				String closeForm = "</form>";
 				
 				
-				out.println(scoreArea+scoreHeader+scoreBody+container+row+col1+scoreCard1+closeCol1+col2+rank1+closeCol2+closeRow+closeContainer+closeScoreBodyAndArea+closeCardBorder+br+br+ form + questionAnalysisCardBorder+questionAnalysisCardHeader+questionAnalysisCardBody+questionAnalysisReport+ br + br + container + row + col4_1 + correctAnswer + closeCol4_1 + col4_2 + incorrectAnswer + closeCol4_2 + col4_3 + unattemptedAnswer + closeCol4_3 + closeRow + closeContainer + br + viewSolutionsButton +closequestionAnalysisCardBody+closequestionAnalysisCardBorder+closeScoreBodyAndArea);
+				String testAnalysisCardBorder = "<div class=\"card border-secondary\" style=\"margin:0 auto;float: none;width:50%;\">";
+				String testAnalysisCardHeader = "<div class=\"card-header bg-dark text-white\"><h5>Test Analysis</h5></div>";
+				String testAnalysisCardBody = "<div class=\"card-body\">";
 				
-				out.println("</form><br></body></div><html>");
+				String startParagraph = "<p> Average score: <b>"+averageScore+"</b><br>Highest score: <b>"+highestScore+"</b><br>Lowest score: <b>"+lowestScore+"</b><br>Rank at average score: <b>"+averageRank+"</b></p>";
+				String closeTestAnalysisSection = "</div></div></div>";
+				
+				
+				out.println(scoreArea+scoreHeader+scoreBody+container+row+col1+scoreCard1+closeCol1+col2+rank1+closeCol2+closeRow+closeContainer+closeScoreBodyAndArea+closeCardBorder+br+ form + questionAnalysisCardBorder+questionAnalysisCardHeader+questionAnalysisCardBody+questionAnalysisReport + br + br + container + row + col4_1 + correctAnswer + closeCol4_1 + col4_2 + incorrectAnswer + closeCol4_2 + col4_3 + unattemptedAnswer + closeCol4_3 + closeRow + closeContainer + br + viewSolutionsButton+closequestionAnalysisCardBody+closequestionAnalysisCardBorder+closeScoreBodyAndArea+closeForm+br);
+				out.println(testAnalysisCardBorder+testAnalysisCardHeader+testAnalysisCardBody+startParagraph+closeTestAnalysisSection);
+				out.println("<br></body></div><html>");
+				
+				
 				
 			}
 		}catch(Exception e)

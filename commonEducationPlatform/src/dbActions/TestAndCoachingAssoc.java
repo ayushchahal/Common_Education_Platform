@@ -66,9 +66,9 @@ public class TestAndCoachingAssoc {
 				String ttime = rs.getString(5);
 				String testID = rs.getString(6);
 				if(ttime.equals("0"))
-					htmlTable[i]=putMyTestDataIntoHTMLTable(i+1,TestName, SubjectName, noq, tmarks, "Time Limit is on each question", testID, StudentID);
+					htmlTable[i]=putMyTestDataIntoHTMLTable(i+1,TestName, SubjectName, noq, tmarks, "Time limit is on each question", testID, StudentID);
 				else
-					htmlTable[i]=putMyTestDataIntoHTMLTable(i+1,TestName, SubjectName, noq, tmarks, ttime, testID, StudentID);
+					htmlTable[i]=putMyTestDataIntoHTMLTable(i+1,TestName, SubjectName, noq, tmarks, "Time limit for entire test is "+ ttime + " minutes", testID, StudentID);
 				i=i+1;
 			}
 		}catch(Exception e)
@@ -112,13 +112,13 @@ public class TestAndCoachingAssoc {
 		if(new TestCreators().doesStudentTestAssociationExist(StudentID, testID))
 		{
 			if(timeLimitType.equals("1"))
-				table= "<tr><td>"+SNo+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+noq+"</td><td>"+tmarks+"</td><td>"+ttime+"</td><td>"+"<form action=\"/MyReport\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+testID+"\">"+"<input type=\"hidden\" name=\"studentID\" value=\""+StudentID+"\">"+"<input type=\"submit\" name=\"details\" class=\"btn btn-success\" value=\"View Report\"></form></td></tr>";
+				table= "<tr><td>"+SNo+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+noq+"</td><td>"+tmarks+"</td><td>"+ttime+"</td><td>"+"<form action=\"/TestCompletionReport\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+testID+"\">"+"<input type=\"hidden\" name=\"studentID\" value=\""+StudentID+"\">"+"<input type=\"submit\" name=\"details\" class=\"btn btn-success\" value=\"View Report\"></form></td></tr>";
 			else
 				table= "<tr><td>"+SNo+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+noq+"</td><td>"+tmarks+"</td><td>"+ttime+"</td><td>"+"<form action=\"/TakeTest\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+testID+"\">"+"<input type=\"hidden\" name=\"studentID\" value=\""+StudentID+"\">"+"<input type=\"submit\" name=\"details\" value=\"Continue Test\"></form></td></tr>";
 		}
 		if(isTestTaken(StudentID,testID))
 		{
-			table= "<tr><td>"+SNo+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+noq+"</td><td>"+tmarks+"</td><td>"+ttime+"</td><td>"+"<form action=\"/MyReport\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+testID+"\">"+"<input type=\"hidden\" name=\"studentID\" value=\""+StudentID+"\">"+"<input type=\"submit\" name=\"details\" class=\"btn btn-success\" value=\"View Report\"></form></td></tr>";
+			table= "<tr><td>"+SNo+"</td><td>"+TestName+"</td><td>"+SubjectName+"</td><td>"+noq+"</td><td>"+tmarks+"</td><td>"+ttime+"</td><td>"+"<form action=\"/TestCompletionReport\" method=\"Post\">"+"<input type=\"hidden\" name=\"testID\" value=\""+testID+"\">"+"<input type=\"hidden\" name=\"studentID\" value=\""+StudentID+"\">"+"<input type=\"submit\" name=\"details\" class=\"btn btn-success\" value=\"View Report\"></form></td></tr>";
 		}
 		
 		return table;
