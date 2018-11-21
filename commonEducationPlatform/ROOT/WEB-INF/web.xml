@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+                 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--> 
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+  version="3.1"
+  metadata-complete="true"> 
+
+  <display-name>Welcome to Tomcat</display-name>
+  <description>
+     Welcome to Tomcat
+  </description>
+  
+  	<servlet>
+	   <servlet-name>LoginServlet1</servlet-name>
+	   <servlet-class>servletActions.LoginServlet1</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>LoginServlet1</servlet-name>
+	   <url-pattern>/LoginServlet1</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>Resp</servlet-name>
+	   <servlet-class>servletActions.Resp</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>Resp</servlet-name>
+	   <url-pattern>/Resp</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ViewCoachingServlet</servlet-name>
+	   <servlet-class>servletActions.ViewCoachingServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ViewCoachingServlet</servlet-name>
+	   <url-pattern>/ViewCoachingServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+	   <servlet-name>ViewStudentsServlet</servlet-name>
+	   <servlet-class>servletActions.ViewStudentsServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ViewStudentsServlet</servlet-name>
+	   <url-pattern>/ViewStudentsServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ViewTeachersServlet</servlet-name>
+	   <servlet-class>servletActions.ViewTeachersServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ViewTeachersServlet</servlet-name>
+	   <url-pattern>/ViewTeachersServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>AddCoaching</servlet-name>
+	   <servlet-class>servletActions.AddCoaching</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>AddCoaching</servlet-name>
+	   <url-pattern>/AddCoaching</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>ViewCoachingsInDropdown</servlet-name>
+	   <servlet-class>servletActions.ViewCoachingsInDropdown</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ViewCoachingsInDropdown</servlet-name>
+	   <url-pattern>/ViewCoachingsInDropdown</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>AddTeacher1</servlet-name>
+	   <servlet-class>servletActions.AddTeacher1</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>AddTeacher1</servlet-name>
+	   <url-pattern>/AddTeacher1</url-pattern>
+	</servlet-mapping>
+	 
+	 
+	 <servlet>
+	   <servlet-name>AddTeacher</servlet-name>
+	   <servlet-class>servletActions.AddTeacher</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>AddTeacher</servlet-name>
+	   <url-pattern>/AddTeacher</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>DisplayTeacherLoginDetails</servlet-name>
+	   <servlet-class>servletActions.DisplayTeacherLoginDetails</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayTeacherLoginDetails</servlet-name>
+	   <url-pattern>/DisplayTeacherLoginDetails</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>DisplayCoachingLoginDetails</servlet-name>
+	   <servlet-class>servletActions.DisplayCoachingLoginDetails</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayCoachingLoginDetails</servlet-name>
+	   <url-pattern>/DisplayCoachingLoginDetails</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>AddStudent1</servlet-name>
+	   <servlet-class>servletActions.AddStudent1</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>AddStudent1</servlet-name>
+	   <url-pattern>/AddStudent1</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>AddStudent</servlet-name>
+	   <servlet-class>servletActions.AddStudent</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>AddStudent</servlet-name>
+	   <url-pattern>/AddStudent</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>DisplayStudentLoginDetails</servlet-name>
+	   <servlet-class>servletActions.DisplayStudentLoginDetails</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayStudentLoginDetails</servlet-name>
+	   <url-pattern>/DisplayStudentLoginDetails</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>Dashboard</servlet-name>
+	   <servlet-class>servletActions.Dashboard</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>Dashboard</servlet-name>
+	   <url-pattern>/Dashboard</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>DisplayAddCoaching</servlet-name>
+	   <servlet-class>servletActions.DisplayAddCoaching</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayAddCoaching</servlet-name>
+	   <url-pattern>/DisplayAddCoaching</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+	   <servlet-name>DisplayAddTeacher</servlet-name>
+	   <servlet-class>servletActions.DisplayAddTeacher</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayAddTeacher</servlet-name>
+	   <url-pattern>/DisplayAddTeacher</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>DisplayAddStudent</servlet-name>
+	   <servlet-class>servletActions.DisplayAddStudent</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayAddStudent</servlet-name>
+	   <url-pattern>/DisplayAddStudent</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>Logout</servlet-name>
+	   <servlet-class>servletActions.Logout</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>Logout</servlet-name>
+	   <url-pattern>/Logout</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>TestDetails</servlet-name>
+	   <servlet-class>servletActions.TestDetails</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>TestDetails</servlet-name>
+	   <url-pattern>/TestDetails</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>DisplayCreateTestPage</servlet-name>
+	   <servlet-class>servletActions.DisplayCreateTestPage</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayCreateTestPage</servlet-name>
+	   <url-pattern>/DisplayCreateTestPage</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet>
+	   <servlet-name>CreateTest</servlet-name>
+	   <servlet-class>servletActions.CreateTest</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>CreateTest</servlet-name>
+	   <url-pattern>/CreateTest</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>CreateQuestions</servlet-name>
+	   <servlet-class>servletActions.CreateQuestions</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>CreateQuestions</servlet-name>
+	   <url-pattern>/CreateQuestions</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>SaveTest</servlet-name>
+	   <servlet-class>servletActions.SaveTest</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>SaveTest</servlet-name>
+	   <url-pattern>/SaveTest</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>DisplayCreatedTests</servlet-name>
+	   <servlet-class>servletActions.DisplayCreatedTests</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DisplayCreatedTests</servlet-name>
+	   <url-pattern>/DisplayCreatedTests</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ShareTestPage</servlet-name>
+	   <servlet-class>servletActions.ShareTestPage</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ShareTestPage</servlet-name>
+	   <url-pattern>/ShareTestPage</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ShareTest</servlet-name>
+	   <servlet-class>servletActions.ShareTest</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ShareTest</servlet-name>
+	   <url-pattern>/ShareTest</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>CoachingDashboard</servlet-name>
+	   <servlet-class>servletActions.CoachingDashboard</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>CoachingDashboard</servlet-name>
+	   <url-pattern>/CoachingDashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>StudentDetail</servlet-name>
+	   <servlet-class>servletActions.StudentDetail</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>StudentDetail</servlet-name>
+	   <url-pattern>/StudentDetail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>DeleteTeacher</servlet-name>
+	   <servlet-class>servletActions.DeleteTeacher</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>DeleteTeacher</servlet-name>
+	   <url-pattern>/DeleteTeacher</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ViewEditOrShareTest</servlet-name>
+	   <servlet-class>servletActions.ViewEditOrShareTest</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ViewEditOrShareTest</servlet-name>
+	   <url-pattern>/ViewEditOrShareTest</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ViewTestDetails</servlet-name>
+	   <servlet-class>servletActions.ViewTestDetails</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ViewTestDetails</servlet-name>
+	   <url-pattern>/ViewTestDetails</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>EditQuestions</servlet-name>
+	   <servlet-class>servletActions.EditQuestions</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>EditQuestions</servlet-name>
+	   <url-pattern>/EditQuestions</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>EditQuestions2</servlet-name>
+	   <servlet-class>servletActions.EditQuestions2</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>EditQuestions2</servlet-name>
+	   <url-pattern>/EditQuestions2</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>PreviousQuestions</servlet-name>
+	   <servlet-class>servletActions.PreviousQuestions</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>PreviousQuestions</servlet-name>
+	   <url-pattern>/PreviousQuestions</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ShowPreviousQuestion</servlet-name>
+	   <servlet-class>servletActions.ShowPreviousQuestion</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ShowPreviousQuestion</servlet-name>
+	   <url-pattern>/ShowPreviousQuestion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ToNextQuestion</servlet-name>
+	   <servlet-class>servletActions.ToNextQuestion</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ToNextQuestion</servlet-name>
+	   <url-pattern>/ToNextQuestion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ToPreviousQuestion</servlet-name>
+	   <servlet-class>servletActions.ToPreviousQuestion</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>ToPreviousQuestion</servlet-name>
+	   <url-pattern>/ToPreviousQuestion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>SaveAndExit</servlet-name>
+	   <servlet-class>servletActions.SaveAndExit</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	   <servlet-name>SaveAndExit</servlet-name>
+	   <url-pattern>/SaveAndExit</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>TeacherDashboard</servlet-name>
+	   <servlet-class>servletActions.TeacherDashboard</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>TeacherDashboard</servlet-name>
+	   <url-pattern>/TeacherDashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>StudentDashboard</servlet-name>
+	   <servlet-class>servletActions.StudentDashboard</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>StudentDashboard</servlet-name>
+	   <url-pattern>/StudentDashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>MyTests</servlet-name>
+	   <servlet-class>servletActions.MyTests</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>MyTests</servlet-name>
+	   <url-pattern>/MyTests</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>TakeTest</servlet-name>
+	   <servlet-class>servletActions.TakeTest</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>TakeTest</servlet-name>
+	   <url-pattern>/TakeTest</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>DisplayQuestions</servlet-name>
+	   <servlet-class>servletActions.DisplayQuestions</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>DisplayQuestions</servlet-name>
+	   <url-pattern>/DisplayQuestions</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>SubmitQuestion</servlet-name>
+	   <servlet-class>servletActions.SubmitQuestion</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>SubmitQuestion</servlet-name>
+	   <url-pattern>/SubmitQuestion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>TestCompletionReport</servlet-name>
+	   <servlet-class>servletActions.TestCompletionReport</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>TestCompletionReport</servlet-name>
+	   <url-pattern>/TestCompletionReport</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>LoginPage</servlet-name>
+	   <servlet-class>servletActions.LoginPage</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>LoginPage</servlet-name>
+	   <url-pattern>/LoginPage</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>PopupErrors</servlet-name>
+	   <servlet-class>servletActions.PopupErrors</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>PopupErrors</servlet-name>
+	   <url-pattern>/PopupErrors</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ViewSolutions</servlet-name>
+	   <servlet-class>servletActions.ViewSolutions</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>ViewSolutions</servlet-name>
+	   <url-pattern>/ViewSolutions</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	   <servlet-name>QuestionAnalysis</servlet-name>
+	   <servlet-class>servletActions.QuestionAnalysis</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>QuestionAnalysis</servlet-name>
+	   <url-pattern>/QuestionAnalysis</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>MyProfile</servlet-name>
+	   <servlet-class>servletActions.MyProfile</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>MyProfile</servlet-name>
+	   <url-pattern>/MyProfile</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>ViewBatches</servlet-name>
+	   <servlet-class>servletActions.ViewBatches</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>ViewBatches</servlet-name>
+	   <url-pattern>/ViewBatches</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	   <servlet-name>CreateBatch</servlet-name>
+	   <servlet-class>servletActions.CreateBatch</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>CreateBatch</servlet-name>
+	   <url-pattern>/CreateBatch</url-pattern>
+	</servlet-mapping>
+</web-app>
